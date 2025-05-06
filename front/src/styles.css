@@ -1,0 +1,15 @@
+@import "primeicons/primeicons.css";
+
+.input-invalid{
+    color: #a94442;
+}
+
+html {
+    background-image: url('./assets/Background.png');
+}
+
+.disableItem,
+.disableItem button{
+    cursor: default;
+    opacity: 0.5;
+}

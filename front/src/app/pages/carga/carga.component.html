@@ -1,0 +1,18 @@
+<app-page
+    [title]="title"
+    [labelButtonAdd]="labelButtonAdd"
+    [data]="cargaList"
+    [cols]="columns"
+    (onCreate)="openForm()"
+    [buttonConfig]="buttonConfig"
+    [canCreate]="canCreate"
+> 
+</app-page>
+<app-toast #toast />
+<app-confirm-dialog #dialog (onConfirm)="deleteCarga($event)" />
+<app-carga-form
+    #form
+    [data]="dataCarga"
+    (onSave)="save($event)"
+    (onUpdate)="update($event)"
+/>

@@ -1,0 +1,18 @@
+<app-page
+    [title]="title"
+    [labelButtonAdd]="labelButtonAdd"
+    [data]="viajeList"
+    [cols]="columns"
+    (onCreate)="openForm()"
+    [buttonConfig]="buttonConfig"
+    [canCreate]="canCreate"
+>
+</app-page> 
+<app-toast #toast/>
+<app-confirm-dialog #dialog (onConfirm)="deleteViaje($event)" />
+<app-viaje-form
+    #form
+    [data]="dataViaje"
+    (onSave)="save($event)"
+    (onUpdate)="update($event)"
+/>

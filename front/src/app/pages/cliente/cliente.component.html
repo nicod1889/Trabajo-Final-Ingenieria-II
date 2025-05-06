@@ -1,0 +1,20 @@
+<app-page
+    [title]="title"
+    [labelButtonAdd]="labelButtonAdd"
+    [data]="clienteList"
+    [cols]="columns"
+    (onCreate)="openForm()"
+    [buttonConfig]="buttonConfig"
+    [canCreate]="canCreate"
+/>
+<app-toast #toast />
+<app-confirm-dialog 
+    #dialog
+    (onConfirm)="deleteCliente($event)"
+/>
+<app-cliente-form
+    #form
+    [data]="dataCliente"
+    (onSave)="save($event)"
+    (onUpdate)="update($event)"
+/>

@@ -1,0 +1,25 @@
+.welcome {
+    font-size: 35px;
+    margin: 20px 0;
+}
+
+.image {
+    width: 175px;
+    border-radius: 10px;
+}
+
+.title {
+    font-size: 25px;
+}
+
+h4{
+    font-size: 20px;
+}
+
+h5{
+    font-size: 18px;
+}
+
+::ng-deep .p-card-content{
+    padding: 0;
+}

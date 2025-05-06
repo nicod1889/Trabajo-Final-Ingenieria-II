@@ -1,0 +1,4 @@
+input,
+::ng-deep .p-inputtext.p-component.p-element.p-password-input{
+  width: 400px;
+}

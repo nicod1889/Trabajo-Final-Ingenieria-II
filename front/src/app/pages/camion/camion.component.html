@@ -1,0 +1,18 @@
+<app-page
+    [title]="title"
+    [labelButtonAdd]="labelButtonAdd"
+    [data]="camionList"
+    [cols]="columns"
+    (onCreate)="openForm()"
+    [buttonConfig]="buttonConfig"
+    [canCreate]="canCreate"
+> 
+</app-page>
+<app-toast #toast />
+<app-confirm-dialog #dialog (onConfirm)="deleteCamion($event)" />
+<app-camion-form
+    #form
+    [data]="dataCamion"
+    (onSave)="save($event)"
+    (onUpdate)="update($event)"
+/>

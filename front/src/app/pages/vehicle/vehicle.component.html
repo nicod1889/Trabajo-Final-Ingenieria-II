@@ -1,0 +1,18 @@
+<app-page
+    [title]="title"
+    [labelButtonAdd]="labelButtonAdd"
+    [data]="vehicleList"
+    [cols]="columns"
+    (onCreate)="openForm()"
+    [buttonConfig]="buttonConfig"
+    [canCreate]="canCreate"
+> 
+</app-page>
+<app-toast #toast />
+<app-confirm-dialog #dialog (onConfirm)="deleteVehicle($event)" />
+<app-vehicle-form
+    #form
+    [data]="dataVehicle"
+    (onSave)="save($event)"
+    (onUpdate)="update($event)"
+/>

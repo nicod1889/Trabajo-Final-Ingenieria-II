@@ -1,0 +1,20 @@
+<app-page
+    [title]="title"
+    [labelButtonAdd]="labelButtonAdd"
+    [data]="employeeList"
+    [cols]="columns"
+    (onCreate)="openForm()"
+    [buttonConfig]="buttonConfig"
+    [canCreate]="canCreate"
+/>
+<app-toast #toast />
+<app-confirm-dialog 
+    #dialog
+    (onConfirm)="deleteemployee($event)"
+/>
+<app-employee-form
+    #form
+    [data]="dataemployee"
+    (onSave)="save($event)"
+    (onUpdate)="update($event)"
+/>

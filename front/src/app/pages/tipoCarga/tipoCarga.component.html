@@ -1,0 +1,18 @@
+<app-page
+    [title]="title"
+    [labelButtonAdd]="labelButtonAdd"
+    [data]="tipoCargaList"
+    [cols]="columns"
+    (onCreate)="openForm()"
+    [buttonConfig]="buttonConfig"
+    [canCreate]="canCreate"
+> 
+</app-page>
+<app-toast #toast />
+<app-confirm-dialog #dialog (onConfirm)="deleteTipoCarga($event)" />
+<app-tipoCarga-form
+    #form
+    [data]="dataTipoCarga"
+    (onSave)="save($event)"
+    (onUpdate)="update($event)"
+/>

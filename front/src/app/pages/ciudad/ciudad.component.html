@@ -1,0 +1,18 @@
+<app-page
+    [title]="title"
+    [labelButtonAdd]="labelButtonAdd"
+    [data]="ciudadList"
+    [cols]="columns"
+    (onCreate)="openForm()"
+    [buttonConfig]="buttonConfig"
+    [canCreate]="canCreate"
+> 
+</app-page>
+<app-toast #toast />
+<app-confirm-dialog #dialog (onConfirm)="deleteCiudad($event)" />
+<app-ciudad-form
+    #form
+    [data]="dataCiudad"
+    (onSave)="save($event)"
+    (onUpdate)="update($event)"
+/>
