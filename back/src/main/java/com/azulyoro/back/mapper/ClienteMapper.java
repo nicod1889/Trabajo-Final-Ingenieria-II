@@ -22,8 +22,6 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
     public ClienteResponseDto entityToDto(Cliente cliente) {
         ClienteResponseDto clienteDto = new ClienteResponseDto();
         clienteDto.setId(cliente.getId());
-        clienteDto.setName(cliente.getNombre());
-        clienteDto.setLastName(cliente.getApellido());
         clienteDto.setCategory(cliente.getCategory());
         clienteDto.setIdentificationNumber(cliente.getIdentificationNumber());
         clienteDto.setEmail(cliente.getEmail());
@@ -37,8 +35,6 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
     @Override
     public Cliente dtoToEntity(ClienteRequestDto requestDto) {
         Cliente cliente = new Cliente();
-        cliente.setNombre(requestDto.getName());
-        cliente.setApellido(requestDto.getLastName());
         cliente.setCategory(requestDto.getCategory());
         cliente.setIdentificationNumber(requestDto.getIdentificationNumber());
         cliente.setEmail(requestDto.getEmail());
@@ -56,8 +52,6 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
     public ClienteBasicResponseDto entityToBasicDto(Cliente cliente) {
         ClienteBasicResponseDto clienteDto = new ClienteBasicResponseDto();
         clienteDto.setId(cliente.getId());
-        clienteDto.setName(cliente.getNombre());
-        clienteDto.setLastName(cliente.getApellido());
         clienteDto.setCategory(cliente.getCategory());
         clienteDto.setIdentificationNumber(cliente.getIdentificationNumber());
         clienteDto.setEmail(cliente.getEmail());

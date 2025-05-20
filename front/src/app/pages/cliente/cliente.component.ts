@@ -39,13 +39,8 @@ export class ClienteComponent {
 
   columns : Column []= [
     {
-      header: "Nombre",
-      field: "name",
-      sortable: true
-    },
-    {
-      header: "Apellido",
-      field: "lastName",
+      header: "Nombre empresa",
+      field: "businessName",
       sortable: true
     },
     {
@@ -54,13 +49,8 @@ export class ClienteComponent {
       sortable: true
     },
     {
-      header: "Nro. documento",
+      header: "Nro. identificación",
       field: "identificationNumber",
-      sortable: true
-    },
-    {
-      header: "Nombre empresa",
-      field: "businessName",
       sortable: true
     },
     {

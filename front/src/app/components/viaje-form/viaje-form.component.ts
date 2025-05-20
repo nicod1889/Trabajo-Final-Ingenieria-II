@@ -156,11 +156,7 @@ export class ViajeFormComponent implements OnInit, OnChanges {
   }
 
   getNombreCliente(cliente: ClienteResponse): string {
-    if(!cliente.businessName){
-      return (cliente.nombre + ' ' + cliente.apellido);
-    } else{
-      return cliente.businessName;
-    }
+    return cliente.businessName ?? 'Nombre indefinido';
   }
 
   getNombreEmpleado(empleado: EmpleadoResponse): string {

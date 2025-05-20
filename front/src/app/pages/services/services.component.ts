@@ -6,7 +6,6 @@ import { EmpleadoBasicResponse, ServiceRequest, ServiceResponse, SparePartRespon
 import { Column } from '../../interfaces/components.interface';
 import { ServicesService } from '../../services/services.service';
 import { ToastComponent } from '../../components/toast/toast.component';
-import { ServiceFormComponent } from '../../components/service-form/service-form.component';
 import { CommonModule } from '@angular/common';
 import { ActionButtonConfig } from '../../components/action-buttons/action-buttons.component';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
@@ -22,13 +21,11 @@ import { AuthService } from '../../auth/auth.service';
     PageComponent,
     ToastComponent,
     ConfirmDialogComponent,
-    ServiceFormComponent,
     CommonModule],
   templateUrl: './services.component.html',
   styleUrl: './services.component.css'
 })
 export class ServicesComponent implements OnInit {
-  @ViewChild('form') form!: ServiceFormComponent;
   @ViewChild('toast') toast!: ToastComponent;
   @ViewChild('dialog') dialog!: ConfirmDialogComponent;
 
@@ -114,14 +111,9 @@ export class ServicesComponent implements OnInit {
     this.loadServices();
   }
 
-  openForm(){
-    this.form.showForm();
-  }
-
   openFormEdit(service: any){
     this.idToUpdated = service.id;
     this.dataService = { ...service };
-    this.form.showForm();
   }
 
   openConfirmDialog(service: ServiceResponse){
@@ -160,14 +152,12 @@ export class ServicesComponent implements OnInit {
 
     this.serviceList = list;
 
-    this.form.resetAndHideForm();
   }
 
   handlePostUpdate(service: ServiceResponse) {
     const index = this.serviceList.findIndex(item => item.id === service.id);
     this.serviceList[index] = this.processService(service);
 
-    this.form.resetAndHideForm();
     this.idToUpdated = undefined;
     this.dataService = undefined;
   }
@@ -209,7 +199,7 @@ export class ServicesComponent implements OnInit {
 
     const ClientName: string = service.Client.businessName 
       ? service.Client.businessName 
-      : `${service.Client.nombre} ${service.Client.apellido}`;
+      : `Nombre indefinido`;
 
     service = {
       ...service,

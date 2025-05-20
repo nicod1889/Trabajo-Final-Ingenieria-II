@@ -1,7 +1,5 @@
 // CLIENTE
 export interface ClienteRequest{
-    nombre: string;
-    apellido: string;
     categoria: DocumentType;
     numeroIdentificacion: number;
     email: string;
@@ -10,8 +8,6 @@ export interface ClienteRequest{
 
 export interface ClienteResponse{
     id: number;
-    nombre: string;
-    apellido: string;
     categoria: DocumentType;
     numeroIdentificacion: number;
     email: string;
@@ -234,8 +230,6 @@ export interface CargaBasicResponse{
 
 export interface ClienteBasicResponse{
     id: number;
-    nombre: string;
-    apellido: string;
     categoria: DocumentType;
     numeroIdentificacion: number;
     email: string;
