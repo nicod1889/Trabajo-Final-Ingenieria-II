@@ -194,12 +194,12 @@ export class employeeComponent {
   }
 
   private formatRol(rol: string): string {
-  return rol
-    .replace('ROL_', '')
-    .toLowerCase()
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, l => l.toUpperCase());
-}
+    return rol
+      .replace('ROL_', '')
+      .toLowerCase()
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, l => l.toUpperCase());
+  }
 
   processemployee(employee : EmpleadoResponse) : EmpleadoResponse{
     const addr = employee.direccion;
