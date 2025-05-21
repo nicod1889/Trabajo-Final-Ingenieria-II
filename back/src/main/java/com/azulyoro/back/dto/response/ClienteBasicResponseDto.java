@@ -11,7 +11,7 @@ import lombok.Setter;
 public class ClienteBasicResponseDto {
     private Long id;
     private TipoIdentificacion category;
-    private Long identificationNumber;
+    private Long numeroIdentificacion;
     private String email;
     private String businessName;
     private boolean isDeleted;

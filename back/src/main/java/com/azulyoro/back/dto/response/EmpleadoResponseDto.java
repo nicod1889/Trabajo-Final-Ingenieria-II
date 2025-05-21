@@ -14,7 +14,8 @@ import java.util.List;
 public class EmpleadoResponseDto extends EmpleadoBasicResponseDto {
     private List<ServicesBasicResponseDto> services;
     private String email;
-    private Long identificationNumber;
-    private Role role;
+    private Long numeroIdentificacion;
+    private Role rol;
+    private String rolText;
     private Direccion direccion;
 }

@@ -18,7 +18,7 @@ public class Empleado extends Persona implements UserDetails {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role rol;
 
     @Embedded
     private Direccion direccion;
@@ -34,7 +34,7 @@ public class Empleado extends Persona implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(rol.name()));
     }
 
     @Override

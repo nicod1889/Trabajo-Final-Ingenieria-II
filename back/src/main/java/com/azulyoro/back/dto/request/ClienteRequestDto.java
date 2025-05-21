@@ -14,7 +14,7 @@ public class ClienteRequestDto {
     @NotNull
     private TipoIdentificacion category;
     @Positive(message = "{request.invalid.positive}")
-    private Long identificationNumber;
+    private Long numeroIdentificacion;
     @Pattern(regexp = RegexPatterns.EMAIL_PATTERN, message = "{request.invalid.email}")
     private String email;
     @Size(max = 255, message = "{request.invalid.max_size}")

@@ -23,7 +23,7 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
         ClienteResponseDto clienteDto = new ClienteResponseDto();
         clienteDto.setId(cliente.getId());
         clienteDto.setCategory(cliente.getCategory());
-        clienteDto.setIdentificationNumber(cliente.getIdentificationNumber());
+        clienteDto.setNumeroIdentificacion(cliente.getNumeroIdentificacion());
         clienteDto.setEmail(cliente.getEmail());
         clienteDto.setBusinessName(cliente.getBusinessName());
         clienteDto.setServices(getServicesBasicDto(cliente));
@@ -36,7 +36,7 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
     public Cliente dtoToEntity(ClienteRequestDto requestDto) {
         Cliente cliente = new Cliente();
         cliente.setCategory(requestDto.getCategory());
-        cliente.setIdentificationNumber(requestDto.getIdentificationNumber());
+        cliente.setNumeroIdentificacion(requestDto.getNumeroIdentificacion());
         cliente.setEmail(requestDto.getEmail());
         cliente.setBusinessName(requestDto.getBusinessName());
         return cliente;
@@ -53,7 +53,7 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
         ClienteBasicResponseDto clienteDto = new ClienteBasicResponseDto();
         clienteDto.setId(cliente.getId());
         clienteDto.setCategory(cliente.getCategory());
-        clienteDto.setIdentificationNumber(cliente.getIdentificationNumber());
+        clienteDto.setNumeroIdentificacion(cliente.getNumeroIdentificacion());
         clienteDto.setEmail(cliente.getEmail());
         clienteDto.setBusinessName(cliente.getBusinessName());
         clienteDto.setDeleted(cliente.isDeleted());

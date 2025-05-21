@@ -45,7 +45,7 @@ export class employeeFormComponent {
     this.fields = [
       {
         label: 'Nombre', 
-        controlName: 'name', 
+        controlName: 'nombre', 
         type: TypeField.TEXT, 
         placeholder: 'Ingrese el nombre', 
         errorMessage: 'Dato obligatorio. Máximo 50 caracteres.',
@@ -53,7 +53,7 @@ export class employeeFormComponent {
       },
       {
         label: 'Apellido',
-        controlName: 'lastName',
+        controlName: 'apellido',
         type: TypeField.TEXT,
         placeholder: 'Ingrese el apellido',
         errorMessage: 'Dato obligatorio. Máximo 50 caracteres.',
@@ -69,7 +69,7 @@ export class employeeFormComponent {
       },
       {
         label: 'Número de documento', 
-        controlName: 'identificationNumber',
+        controlName: 'numeroIdentificacion',
         type: TypeField.NUMBER,
         placeholder: 'Ingrese el número de documento',
         errorMessage: 'Debe ingresar 8 digitos para DNI.',
@@ -80,7 +80,7 @@ export class employeeFormComponent {
       },
       {
         label: 'Rol', 
-        controlName: 'role',
+        controlName: 'rol',
         type: TypeField.SELECT,
         placeholder: 'Ingrese el rol',
         errorMessage: 'El dato es obligatorio',

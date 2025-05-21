@@ -19,16 +19,16 @@ import lombok.Setter;
 public class RegisterRequest {
     @NotBlank(message = "{request.invalid.blank}")
     @Size(max = 50, message = "{request.invalid.max_size}")
-    private String name;
+    private String nombre;
     @NotBlank(message = "{request.invalid.blank}")
     @Size(max = 50, message = "{request.invalid.max_size}")
-    private String lastName;
+    private String apellido;
     @Pattern(regexp = RegexPatterns.EMAIL_PATTERN, message = "{request.invalid.email}")
     private String email;
     @Positive(message = "{request.invalid.positive}")
-    private Long identificationNumber;
+    private Long numeroIdentificacion;
     @NotNull(message = "{request.invalid.null}")
-    private Role role;
+    private Role rol;
     @NotNull(message = "{request.invalid.null}")
     private Direccion direccion;
     private String password;

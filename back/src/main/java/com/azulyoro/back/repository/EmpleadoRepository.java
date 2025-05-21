@@ -16,13 +16,13 @@ public interface EmpleadoRepository extends JpaRepository<Empleado, Long> {
 
     boolean existsByEmail(String email);
 
-    boolean existsByIdentificationNumber(Long identificationNumber);
+    boolean existsByNumeroIdentificacion(Long numeroIdentificacion);
 
     @Query("SELECT CASE WHEN COUNT(e) > 0 THEN true ELSE false END FROM Empleado e WHERE e.email = :email AND e.id <> :id")
     boolean existsByEmailExcludingId(@Param("id") Long id, @Param("email") String email);
 
-    @Query("SELECT CASE WHEN COUNT(e) > 0 THEN true ELSE false END FROM Empleado e WHERE e.identificationNumber = :identificationNumber AND e.id <> :id")
-    boolean existsByIdentificationNumberExcludingId(@Param("id") Long id, @Param("identificationNumber") Long identificationNumber);
+    @Query("SELECT CASE WHEN COUNT(e) > 0 THEN true ELSE false END FROM Empleado e WHERE e.numeroIdentificacion = :numeroIdentificacion AND e.id <> :id")
+    boolean existsByNumeroIdentificacionExcludingId(@Param("id") Long id, @Param("numeroIdentificacion") Long numeroIdentificacion);
 
     @Modifying
     @Query("update Empleado e set e.isDeleted = true where e.id = ?1")

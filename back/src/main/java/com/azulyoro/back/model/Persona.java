@@ -21,7 +21,7 @@ public abstract class Persona {
     private TipoIdentificacion category;
 
     @Column(nullable = false, length = 50, unique = true)
-    private Long identificationNumber;
+    private Long numeroIdentificacion;
 
     @Column(nullable = false, length = 50, unique = true)
     private String email;
