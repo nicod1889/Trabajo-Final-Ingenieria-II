@@ -7,7 +7,9 @@ import com.azulyoro.back.exception.CannotDeleteEntityException;
 import com.azulyoro.back.mapper.CargaMapper;
 import com.azulyoro.back.mapper.PageMapper;
 import com.azulyoro.back.model.Carga;
+import com.azulyoro.back.model.TipoCarga;
 import com.azulyoro.back.repository.CargaRepository;
+import com.azulyoro.back.repository.TipoCargaRepository;
 import com.azulyoro.back.util.MessageUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,26 +26,39 @@ import java.util.List;
 public class CargaService implements EntityService<CargaRequestDto, CargaResponseDto> {
 
     @Autowired
-    private CargaRepository ciudadRepository;
+    private CargaRepository cargaRepository;
 
     @Autowired
-    private CargaMapper ciudadMapper;
+    private TipoCargaRepository tipoCargaRepository;
+
+    @Autowired
+    private CargaMapper cargaMapper;
 
     @Autowired
     private PageMapper pageMapper;
 
     @Override
-    public CargaResponseDto create(CargaRequestDto ciudadDto) {
-        Carga ciudad = ciudadMapper.dtoToEntity(ciudadDto);
-        return ciudadMapper.entityToDto(ciudadRepository.save(ciudad));
+    public CargaResponseDto create(CargaRequestDto cargaDto) {
+        TipoCarga tipoCarga = tipoCargaRepository.findById(cargaDto.getTipoCargaId())
+        .orElseThrow(() -> new EntityNotFoundException("Tipo de carga no encontrado"));
+
+        Carga carga = cargaMapper.dtoToEntity(cargaDto);
+        carga.setTipoCarga(tipoCarga);
+
+        return cargaMapper.entityToDto(cargaRepository.save(carga));
     }
 
     @Override
-    public CargaResponseDto update(Long id, CargaRequestDto ciudadDto) {
-        if (ciudadRepository.existsById(id)) {
-            Carga ciudad = ciudadMapper.dtoToEntity(ciudadDto);
-            ciudad.setId(id);
-            return ciudadMapper.entityToDto(ciudadRepository.save(ciudad));
+    public CargaResponseDto update(Long id, CargaRequestDto cargaDto) {
+        if (cargaRepository.existsById(id)) {
+            TipoCarga tipoCarga = tipoCargaRepository.findById(cargaDto.getTipoCargaId())
+                .orElseThrow(() -> new EntityNotFoundException("Tipo de carga no encontrado"));
+    
+            Carga carga = cargaMapper.dtoToEntity(cargaDto);
+            carga.setId(id);
+            carga.setTipoCarga(tipoCarga);
+    
+            return cargaMapper.entityToDto(cargaRepository.save(carga));
         } else {
             throw new EntityNotFoundException(MessageUtil.entityNotFound(id));
         }
@@ -51,26 +66,26 @@ public class CargaService implements EntityService<CargaRequestDto, CargaRespons
 
     @Override
     public CargaResponseDto getById(Long id) {
-        Carga ciudad = ciudadRepository
+        Carga carga = cargaRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(MessageUtil.entityNotFound(id)));
-        return ciudadMapper.entityToDto(ciudad);
+        return cargaMapper.entityToDto(carga);
     }
 
     @Override
     public List<CargaResponseDto> getAll() {
-        return ciudadRepository
+        return cargaRepository
                 .findAll()
                 .stream()
-                .map(ciudadMapper::entityToDto)
+                .map(cargaMapper::entityToDto)
                 .toList();
     }
 
     @Override
     public CustomPage<CargaResponseDto> getByPage(Pageable pageable) {
-        Page<CargaResponseDto> page = ciudadRepository
+        Page<CargaResponseDto> page = cargaRepository
                 .findAll(pageable)
-                .map(ciudadMapper::entityToDto);
+                .map(cargaMapper::entityToDto);
         return pageMapper.pageToCustomPage(page);
     }
 
@@ -78,14 +93,14 @@ public class CargaService implements EntityService<CargaRequestDto, CargaRespons
     @Transactional
     public void delete(Long id) {
         try {
-            ciudadRepository.softDelete(id);
+            cargaRepository.softDelete(id);
         } catch (Exception e) {
             throw new CannotDeleteEntityException(MessageUtil.entityCannotDelete(id, e.getMessage()));
         }
     }
 
     public Carga findById(Long id) {
-        return ciudadRepository.findById(id)
+        return cargaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(MessageUtil.entityNotFound(id)));
     }
 }
