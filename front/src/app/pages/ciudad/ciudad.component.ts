@@ -87,17 +87,6 @@ export class CiudadComponent implements OnInit {
     });
   }
 
-  processCiudad(ciudad: CiudadResponse) {
-    const showedProvincia: string = this.mapProvinciaToDescription(ciudad.provincia);
-
-    ciudad = {
-      ...ciudad,
-      showedProvincia,
-    }
-    
-    return ciudad;
-  }
-
   openForm() {
     this.form.showForm();
   }
@@ -133,8 +122,10 @@ export class CiudadComponent implements OnInit {
   }
 
   handlePostUpdate(ciudad: CiudadResponse) {
+    const updatedCiudad = this.processCiudad(ciudad);
+
     const index = this.ciudadList.findIndex(item => item.id === ciudad.id);
-    this.ciudadList[index] = ciudad;
+    this.ciudadList[index] = updatedCiudad;
 
     this.form.resetAndHideForm();
     this.idToUpdated = undefined;
@@ -142,9 +133,10 @@ export class CiudadComponent implements OnInit {
   }
 
   handlePostCreate(ciudad : CiudadResponse){
+    const newCiudad = this.processCiudad(ciudad);
+
     let list = [...this.ciudadList];
-    list.push(ciudad);
-    
+    list.push(newCiudad);
     this.ciudadList = list;
 
     this.form.resetAndHideForm();
@@ -167,37 +159,21 @@ export class CiudadComponent implements OnInit {
     });
   }
 
-  mapProvinciaToDescription(provincia: Provincia | string): string {
-    const provinciaMapping: Record<string, string> = {
-      BUENOS_AIRES: 'Buenos Aires',
-      CABA: 'CABA',
-      CATAMARCA: 'Catamarca',
-      CHACO: 'Chaco',
-      CHUBUT: 'Chubut',
-      CORDOBA: 'Córdoba',
-      CORRIENTES: 'Corrientes',
-      ENTRE_RIOS: 'Entre Ríos',
-      FORMOSA: 'Formosa',
-      JUJUY: 'Jujuy',
-      LA_PAMPA: 'La Pampa',
-      LA_RIOJA: 'La Rioja',
-      MENDOZA: 'Mendoza',
-      MISIONES: 'Misiones',
-      NEUQUEN: 'Neuquén',
-      RIO_NEGRO: 'Río Negro',
-      SALTA: 'Salta',
-      SAN_JUAN: 'San Juan',
-      SAN_LUIS: 'San Luis',
-      SANTA_CRUZ: 'Santa Cruz',
-      SANTA_FE: 'Santa Fe',
-      SANTIAGO_DEL_ESTERO: 'Santiago del Estero',
-      TIERRA_DEL_FUEGO: 'Tierra del Fuego',
-      TUCUMAN: 'Tucumán'
-    };
+  formatProvincia(provincia: string): string {
+    return provincia
+      .toLowerCase()
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
+  processCiudad(ciudad : CiudadResponse) : CiudadResponse{
+      const showedProvincia = this.formatProvincia(ciudad.provincia);
   
-    const key = typeof provincia === 'number' ? Provincia[provincia] : provincia;
-  
-    return provinciaMapping[key] ?? 'Desconocido';
+      return {
+        ...ciudad,
+        showedProvincia
+      };
   }
 
 }

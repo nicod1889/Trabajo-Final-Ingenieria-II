@@ -1,7 +1,5 @@
 // CLIENTE
 export interface ClienteRequest{
-    nombre: string;
-    apellido: string;
     categoria: DocumentType;
     numeroIdentificacion: number;
     email: string;
@@ -10,8 +8,6 @@ export interface ClienteRequest{
 
 export interface ClienteResponse{
     id: number;
-    nombre: string;
-    apellido: string;
     categoria: DocumentType;
     numeroIdentificacion: number;
     email: string;
@@ -234,8 +230,6 @@ export interface CargaBasicResponse{
 
 export interface ClienteBasicResponse{
     id: number;
-    nombre: string;
-    apellido: string;
     categoria: DocumentType;
     numeroIdentificacion: number;
     email: string;
@@ -317,30 +311,30 @@ export enum Role {
 }
 
 export enum Provincia {
-    BUENOS_AIRES,
-    CABA,
-    CATAMARCA,
-    CHACO,
-    CHUBUT,
-    CORDOBA,
-    CORRIENTES,
-    ENTRE_RIOS,
-    FORMOSA,
-    JUJUY,
-    LA_PAMPA,
-    LA_RIOJA,
-    MENDOZA,
-    MISIONES,
-    NEUQUEN,
-    RIO_NEGRO,
-    SALTA,
-    SAN_JUAN,
-    SAN_LUIS,
-    SANTA_CRUZ,
-    SANTA_FE,
-    SANTIAGO_DEL_ESTERO,
-    TIERRA_DEL_FUEGO,
-    TUCUMAN
+    BUENOS_AIRES = 'BUENOS_AIRES',
+    CABA = 'CABA',
+    CATAMARCA = 'CATAMARCA',
+    CHACO = 'CHACO',
+    CHUBUT = 'CHUBUT',
+    CORDOBA = 'CORDOBA',
+    CORRIENTES = 'CORRIENTES',
+    ENTRE_RIOS = 'ENTRE_RIOS',
+    FORMOSA = 'FORMOSA',
+    JUJUY = 'JUJUY',
+    LA_PAMPA = 'LA_PAMPA',
+    LA_RIOJA = 'LA_RIOJA',
+    MENDOZA = 'MENDOZA',
+    MISIONES = 'MISIONES',
+    NEUQUEN = 'NEUQUEN',
+    RIO_NEGRO = 'RIO_NEGRO',
+    SALTA = 'SALTA',
+    SAN_JUAN = 'SAN_JUAN',
+    SAN_LUIS = 'SAN_LUIS',
+    SANTA_CRUZ = 'SANTA_CRUZ',
+    SANTA_FE = 'SANTA_FE',
+    SANTIAGO_DEL_ESTERO = 'SANTIAGO_DEL_ESTERO',
+    TIERRA_DEL_FUEGO = 'TIERRA_DEL_FUEGO',
+    TUCUMAN = 'TUCUMAN'
 }
 
 type RoleKey = "ROL_ADMINISTRATIVO" | "ROL_CAMIONERO" | "ROL_ADMIN"

@@ -22,10 +22,8 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
     public ClienteResponseDto entityToDto(Cliente cliente) {
         ClienteResponseDto clienteDto = new ClienteResponseDto();
         clienteDto.setId(cliente.getId());
-        clienteDto.setName(cliente.getNombre());
-        clienteDto.setLastName(cliente.getApellido());
         clienteDto.setCategory(cliente.getCategory());
-        clienteDto.setIdentificationNumber(cliente.getIdentificationNumber());
+        clienteDto.setNumeroIdentificacion(cliente.getNumeroIdentificacion());
         clienteDto.setEmail(cliente.getEmail());
         clienteDto.setBusinessName(cliente.getBusinessName());
         clienteDto.setServices(getServicesBasicDto(cliente));
@@ -37,10 +35,8 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
     @Override
     public Cliente dtoToEntity(ClienteRequestDto requestDto) {
         Cliente cliente = new Cliente();
-        cliente.setNombre(requestDto.getName());
-        cliente.setApellido(requestDto.getLastName());
         cliente.setCategory(requestDto.getCategory());
-        cliente.setIdentificationNumber(requestDto.getIdentificationNumber());
+        cliente.setNumeroIdentificacion(requestDto.getNumeroIdentificacion());
         cliente.setEmail(requestDto.getEmail());
         cliente.setBusinessName(requestDto.getBusinessName());
         return cliente;
@@ -56,10 +52,8 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
     public ClienteBasicResponseDto entityToBasicDto(Cliente cliente) {
         ClienteBasicResponseDto clienteDto = new ClienteBasicResponseDto();
         clienteDto.setId(cliente.getId());
-        clienteDto.setName(cliente.getNombre());
-        clienteDto.setLastName(cliente.getApellido());
         clienteDto.setCategory(cliente.getCategory());
-        clienteDto.setIdentificationNumber(cliente.getIdentificationNumber());
+        clienteDto.setNumeroIdentificacion(cliente.getNumeroIdentificacion());
         clienteDto.setEmail(cliente.getEmail());
         clienteDto.setBusinessName(cliente.getBusinessName());
         clienteDto.setDeleted(cliente.isDeleted());

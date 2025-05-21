@@ -67,7 +67,7 @@ export class CiudadFormComponent implements OnInit, OnChanges {
     { label: 'Tucumán', value: Provincia.TUCUMAN }
   ];
 
-  constructor (private fb : FormBuilder, private marcaService : MarcaService ){
+  constructor (private fb : FormBuilder){
     this.fields = [
       {
         label: 'Nombre', 
@@ -82,7 +82,7 @@ export class CiudadFormComponent implements OnInit, OnChanges {
         controlName: 'provincia',
         type: TypeField.SELECT,
         placeholder: '',
-        selectList: this.provincias,
+        selectList: Object.values(Provincia).map(p => ({ label: this.formatProvincia(p), value: p })),
         errorMessage: 'Selecciona una provincia',
         validators: [Validators.required],
         disabledOnCreate: true
@@ -115,25 +115,16 @@ export class CiudadFormComponent implements OnInit, OnChanges {
   }
 
   showFormEdit(ciudad: CiudadResponse) {
+    console.log('Provincia recibida:', ciudad.provincia);
+
     this.idToUpdated = ciudad.id;
-  
-    // Verifica la estructura completa del objeto ciudad
-    console.log(ciudad);  // Verifica cómo está estructurado 'ciudad'
-  
-    // Aquí usamos el valor de provincia directamente
-    const ciudadData: CiudadRequest = {
-      nombre: ciudad.nombre,
-      provinciaId: ciudad.provincia,  // La provincia es directamente el valor del enum
-    };
-  
-    this.dataCiudad = ciudadData;
-  
-    // Actualizamos el formulario con el valor correcto
+
     this.form.patchValue({
       nombre: ciudad.nombre,
-      provincia: ciudad.provincia,  // Aquí asignamos directamente el valor del enum
+      provincia: ciudad.provincia
     });
-  
+    console.log('Valor control provincia:', this.form.get('provincia')?.value);
+
     this.isEditMode = true;
     this.title = this.titleOnUpdate;
     this.visible = true;
@@ -183,5 +174,9 @@ export class CiudadFormComponent implements OnInit, OnChanges {
     this.data = undefined;
     this.isEditMode = false;
     this.title = this.titleOnCreate;
+  }
+
+  formatProvincia(prov: string): string {
+    return prov.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
   }
 }

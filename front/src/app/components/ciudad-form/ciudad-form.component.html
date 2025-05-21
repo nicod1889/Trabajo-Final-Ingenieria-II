@@ -30,6 +30,8 @@
             <p-floatLabel *ngIf="isSelect(field.type)">
                 <p-dropdown 
                     [options]="field.selectList"
+                    optionLabel="label"
+                    optionValue="value"
                     [showClear]="true" 
                     [formControlName]="field.controlName"
                     [style]="{ width: '100%'}">

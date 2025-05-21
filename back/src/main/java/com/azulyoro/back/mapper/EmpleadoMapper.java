@@ -27,9 +27,9 @@ public class EmpleadoMapper implements Mapper<Empleado, RegisterRequest, Emplead
         dto.setId(empleado.getId());
         dto.setNombre(empleado.getNombre());
         dto.setApellido(empleado.getApellido());
-        dto.setIdentificationNumber(empleado.getIdentificationNumber());
+        dto.setNumeroIdentificacion(empleado.getNumeroIdentificacion());
         dto.setEmail(empleado.getEmail());
-        dto.setRole(empleado.getRole());
+        dto.setRol(empleado.getRol());
         dto.setDireccion(empleado.getDireccion());
         dto.setDeleted(empleado.isDeleted());
 
@@ -40,12 +40,12 @@ public class EmpleadoMapper implements Mapper<Empleado, RegisterRequest, Emplead
     public Empleado dtoToEntity(RegisterRequest request) {
         Empleado empleado = new Empleado();
 
-        empleado.setNombre(request.getName());
-        empleado.setApellido(request.getLastName());
+        empleado.setNombre(request.getNombre());
+        empleado.setApellido(request.getApellido());
         empleado.setCategory(TipoIdentificacion.DNI);
-        empleado.setIdentificationNumber(request.getIdentificationNumber());
+        empleado.setNumeroIdentificacion(request.getNumeroIdentificacion());
         empleado.setEmail(request.getEmail());
-        empleado.setRole(request.getRole());
+        empleado.setRol(request.getRol());
         empleado.setDireccion(request.getDireccion());
 
         return empleado;

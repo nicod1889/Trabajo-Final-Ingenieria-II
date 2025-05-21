@@ -43,12 +43,12 @@ export class employeeComponent {
   columns : Column []= [
     {
       header: "Nombre",
-      field: "name",
+      field: "nombre",
       sortable: true
     },
     {
       header: "Apellido",
-      field: "lastName",
+      field: "apellido",
       sortable: true
     },
     {
@@ -58,12 +58,12 @@ export class employeeComponent {
     },
     {
       header: "Nro. documento",
-      field: "identificationNumber",
+      field: "numeroIdentificacion",
       sortable: true
     },
     {
       header: "Rol",
-      field: "roleText",
+      field: "rolText",
       sortable: true
     },
     {
@@ -103,7 +103,9 @@ export class employeeComponent {
 
   loademployees(){
     this.employeeService.getAll().subscribe(response => {
-       this.employeeList = response
+      console.log("RESPONSE:", response);
+
+      this.employeeList = response
       .filter(e => !e.deleted)
       .map(e => {
         return this.processemployee(e);
@@ -191,17 +193,24 @@ export class employeeComponent {
     this.form.resetAndHideForm();
   }
 
-  private processemployee(employee : EmpleadoResponse) : EmpleadoResponse{
-    const rolText = Role[employee.rol as unknown as keyof typeof Role];
+  private formatRol(rol: string): string {
+    return rol
+      .replace('ROL_', '')
+      .toLowerCase()
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, l => l.toUpperCase());
+  }
+
+  processemployee(employee : EmpleadoResponse) : EmpleadoResponse{
     const addr = employee.direccion;
     const direccionCompound = `${addr.street || ''} ${addr.number || ''} ${addr.floor ?? ''} ${addr.department ?? ''}`.trim();
 
-    employee = {
-        ...employee,
-        rolText,
-        direccionCompound
-    }
+    const rolText = this.formatRol(employee.rol);
 
-    return employee;
+    return {
+      ...employee,
+      direccionCompound,
+      rolText
+    };
   }
 }

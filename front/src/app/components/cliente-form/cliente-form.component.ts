@@ -14,16 +14,7 @@ import { emailCustomValidator, noWhitespaceValidator, nroDniCuitValidator } from
 @Component({
   selector: 'app-cliente-form',
   standalone: true,
-  imports: [
-    ButtonModule,
-    DialogModule,
-    DropdownModule,
-    FloatLabelModule,
-    InputTextModule,
-    CommonModule, 
-    ReactiveFormsModule,
-    FormComponent
-  ],
+  imports: [ButtonModule, DialogModule, DropdownModule, FloatLabelModule, InputTextModule, CommonModule,  ReactiveFormsModule, FormComponent],
   templateUrl: './cliente-form.component.html'
 })
 export class ClienteFormComponent {
@@ -44,22 +35,6 @@ export class ClienteFormComponent {
     }));
 
     this.fields = [
-      {
-        label: 'Nombre', 
-        controlName: 'name', 
-        type: TypeField.TEXT, 
-        placeholder: 'Ingrese su nombre', 
-        errorMessage: 'Dato obligatorio. Máximo 50 caracteres.',
-        validators: [Validators.required, Validators.maxLength(50), noWhitespaceValidator]
-      },
-      {
-        label: 'Apellido',
-        controlName: 'lastName',
-        type: TypeField.TEXT,
-        placeholder: 'Ingrese su apellido',
-        errorMessage: 'Dato obligatorio. Máximo 50 caracteres.',
-        validators: [Validators.required, Validators.maxLength(50), noWhitespaceValidator]
-      },
       {
         label: 'Seleccione un tipo de documento',
         controlName: 'category',
@@ -86,7 +61,7 @@ export class ClienteFormComponent {
         validators: [Validators.required, emailCustomValidator]
       },
       { 
-        label: 'Nombre empresa (si corresponde)',
+        label: 'Nombre empresa',
         controlName: 'businessName',
         type: TypeField.TEXT,
         placeholder: 'Ingrese el nombre de la empresa',

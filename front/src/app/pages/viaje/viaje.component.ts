@@ -201,7 +201,7 @@ export class ViajeComponent implements OnInit {
 
     const nombreCliente: string = viaje.cliente.businessName 
       ? viaje.cliente.businessName 
-      : `${viaje.cliente.nombre} ${viaje.cliente.apellido}`;
+      : `Nombre indefinido`;
 
     viaje = {
       ...viaje,

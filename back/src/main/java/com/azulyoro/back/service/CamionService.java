@@ -16,11 +16,14 @@ import com.azulyoro.back.mapper.CamionMapper;
 import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.azulyoro.back.model.Camion;
+import com.azulyoro.back.model.Marca;
 import com.azulyoro.back.repository.CamionRepository;
+import com.azulyoro.back.repository.MarcaRepository;
 import com.azulyoro.back.util.MessageUtil;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -33,6 +36,9 @@ public class CamionService implements EntityService<CamionRequestDto, CamionResp
     private CamionRepository camionRepository;
 
     @Autowired
+    private MarcaRepository marcaRepository;
+
+    @Autowired
     private CamionMapper camionMapper;
     @Autowired
     private ViajeMapper viajeMapper;
@@ -43,7 +49,11 @@ public class CamionService implements EntityService<CamionRequestDto, CamionResp
 
     @Override
     public CamionResponseDto create(CamionRequestDto camionDto) {
+        Marca marca = marcaRepository.findById(camionDto.getMarcaId())
+        .orElseThrow(() -> new EntityNotFoundException("Marca no encontrada con id " + camionDto.getMarcaId()));
+
         Camion camion = camionMapper.dtoToEntity(camionDto);
+        camion.setMarca(marca);
 
         return setViajeAndGetResponseDto(camionRepository.save(camion));
     }
@@ -51,7 +61,11 @@ public class CamionService implements EntityService<CamionRequestDto, CamionResp
     @Override
     public CamionResponseDto update(Long id, CamionRequestDto camionDto) {
         if (camionRepository.existsById(id)) {
+            Marca marca = marcaRepository.findById(camionDto.getMarcaId())
+            .orElseThrow(() -> new EntityNotFoundException("Marca no encontrada con id " + camionDto.getMarcaId()));
+            
             Camion camion = camionMapper.dtoToEntity(camionDto);
+            camion.setMarca(marca);
             camion.setId(id);
 
             return setViajeAndGetResponseDto(camionRepository.save(camion));

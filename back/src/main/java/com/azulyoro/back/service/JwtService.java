@@ -32,7 +32,7 @@ public class JwtService {
         Map<String, Object> extraClaims = Map.of(
                 "name", empleado.getNombre(),
                 "lastName", empleado.getApellido(),
-                "role", empleado.getRole()
+                "rol", empleado.getRol()
         );
 
         return getToken(extraClaims, empleado);

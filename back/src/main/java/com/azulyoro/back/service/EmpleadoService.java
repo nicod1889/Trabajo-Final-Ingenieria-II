@@ -119,12 +119,12 @@ public class EmpleadoService implements IEmpleadoService{
 
     private Empleado validateAndProcessRequest(RegisterRequest registerRequest) {
         String email = registerRequest.getEmail();
-        Long idNumber = registerRequest.getIdentificationNumber();
+        Long idNumber = registerRequest.getNumeroIdentificacion();
 
         if (empleadoRepository.existsByEmail(email))
             throw new UserAlreadyRegistered(MessageUtil.emailAlreadyRegistered(email));
 
-        if (empleadoRepository.existsByIdentificationNumber(idNumber))
+        if (empleadoRepository.existsByNumeroIdentificacion(idNumber))
             throw new UserAlreadyRegistered(MessageUtil.idNumberAlreadyRegistered(idNumber));
 
         Empleado empleado = empleadoMapper.dtoToEntity(registerRequest);
@@ -135,12 +135,12 @@ public class EmpleadoService implements IEmpleadoService{
 
     private Empleado validateAndProcessUpdateRequest(Long id, RegisterRequest registerRequest) {
         String email = registerRequest.getEmail();
-        Long idNumber = registerRequest.getIdentificationNumber();
+        Long idNumber = registerRequest.getNumeroIdentificacion();
 
         if (empleadoRepository.existsByEmailExcludingId(id, email))
             throw new UserAlreadyRegistered(MessageUtil.emailAlreadyRegistered(email));
 
-        if (empleadoRepository.existsByIdentificationNumberExcludingId(id, idNumber))
+        if (empleadoRepository.existsByNumeroIdentificacionExcludingId(id, idNumber))
             throw new UserAlreadyRegistered(MessageUtil.idNumberAlreadyRegistered(idNumber));
 
         return empleadoMapper.dtoToEntity(registerRequest);
