@@ -1,3 +1,3 @@
 export const hasValidRoles = (employeeData : any, roles : string[]) => { 
-    return roles.includes(employeeData?.role);
+    return roles.includes(employeeData?.rol);
 }

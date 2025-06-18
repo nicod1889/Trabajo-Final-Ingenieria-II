@@ -66,8 +66,8 @@ public class JwtService {
     // quizas innecesaria
     public List<SimpleGrantedAuthority> getAuthoritiesFromToken(String token) {
         Claims claims = getAllClaims(token);
-        String role = claims.get("role", String.class);
-        return Collections.singletonList(new SimpleGrantedAuthority(role));
+        String rol = claims.get("rol", String.class);
+        return Collections.singletonList(new SimpleGrantedAuthority(rol));
     }
 
     private Claims getAllClaims(String token) {
