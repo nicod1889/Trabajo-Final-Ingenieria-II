@@ -38,9 +38,9 @@ export class UserInfoComponent {
     const userInfo = this.authService?.employeeData as any;
     const name = userInfo?.name;
     const lastName = userInfo?.lastName;
-    const role = (userInfo?.role) ? `- ${Role[userInfo.role as keyof typeof Role]}` : "";
+    const rol = (userInfo?.rol) ? `- ${Role[userInfo.rol as keyof typeof Role]}` : "";
 
-    return `${name} ${lastName} ${role}`;
+    return `${name} ${lastName} ${rol}`;
   }
 
 }
