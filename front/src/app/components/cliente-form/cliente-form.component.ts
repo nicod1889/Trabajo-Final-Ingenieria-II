@@ -62,7 +62,7 @@ export class ClienteFormComponent {
       },
       { 
         label: 'Nombre empresa',
-        controlName: 'businessName',
+        controlName: 'razonSocial',
         type: TypeField.TEXT,
         placeholder: 'Ingrese el nombre de la empresa',
         errorMessage: 'Máximo 255 caracteres. No se permiten espacios en blanco',

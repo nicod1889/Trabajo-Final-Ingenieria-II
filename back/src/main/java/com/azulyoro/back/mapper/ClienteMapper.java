@@ -25,7 +25,7 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
         clienteDto.setCategory(cliente.getCategory());
         clienteDto.setNumeroIdentificacion(cliente.getNumeroIdentificacion());
         clienteDto.setEmail(cliente.getEmail());
-        clienteDto.setBusinessName(cliente.getBusinessName());
+        clienteDto.setRazonSocial(cliente.getRazonSocial());
         clienteDto.setServices(getServicesBasicDto(cliente));
         clienteDto.setDeleted(cliente.isDeleted());
 
@@ -38,7 +38,7 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
         cliente.setCategory(requestDto.getCategory());
         cliente.setNumeroIdentificacion(requestDto.getNumeroIdentificacion());
         cliente.setEmail(requestDto.getEmail());
-        cliente.setBusinessName(requestDto.getBusinessName());
+        cliente.setRazonSocial(requestDto.getRazonSocial());
         return cliente;
     }
     private List<ServicesBasicResponseDto> getServicesBasicDto(Cliente cliente) {
@@ -55,7 +55,7 @@ public class ClienteMapper implements Mapper<Cliente, ClienteRequestDto, Cliente
         clienteDto.setCategory(cliente.getCategory());
         clienteDto.setNumeroIdentificacion(cliente.getNumeroIdentificacion());
         clienteDto.setEmail(cliente.getEmail());
-        clienteDto.setBusinessName(cliente.getBusinessName());
+        clienteDto.setRazonSocial(cliente.getRazonSocial());
         clienteDto.setDeleted(cliente.isDeleted());
 
         return clienteDto;

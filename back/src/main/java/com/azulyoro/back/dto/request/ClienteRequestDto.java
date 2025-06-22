@@ -18,5 +18,5 @@ public class ClienteRequestDto {
     @Pattern(regexp = RegexPatterns.EMAIL_PATTERN, message = "{request.invalid.email}")
     private String email;
     @Size(max = 255, message = "{request.invalid.max_size}")
-    private String businessName;
+    private String razonSocial;
 }
