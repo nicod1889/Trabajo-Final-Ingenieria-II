@@ -1,6 +1,6 @@
 <div *ngIf="routeLogin()">
-  <app-header (toggleSidebar)="toggleSidebar()"></app-header>
-  <app-sidebar [visible]="isSidebarVisible" (hide)="toggleSidebar()"></app-sidebar>
+  <app-header (toggleSidebar)="showSidebar()"></app-header>
+  <app-sidebar [visible]="isSidebarVisible" (hide)="hideSidebar()"></app-sidebar>
 </div>
 <div class="container main-content p-0">
   <router-outlet></router-outlet>

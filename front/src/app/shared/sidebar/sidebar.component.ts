@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent {
   @Input() visible : boolean = false;
-  @Output() hide = new EventEmitter;
+  @Output() hide = new EventEmitter<void>();
 
   textTooltip : string = "Función no disponible";
 
