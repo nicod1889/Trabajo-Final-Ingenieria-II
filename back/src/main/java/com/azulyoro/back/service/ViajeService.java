@@ -23,14 +23,9 @@ import java.util.List;
 
 @Service
 public class ViajeService implements EntityService<ViajeRequestDto, ViajeResponseDto> {
-    private class RelatedEntites{
-        public Cliente cliente;
-        public Camion camion;
-        public Empleado empleado;
-    }
-    
+
     @Autowired
-    private ViajeRepository servicesRepository;
+    private ViajeRepository viajeRepository;
 
     @Autowired
     private ClienteService clienteService;
@@ -39,14 +34,14 @@ public class ViajeService implements EntityService<ViajeRequestDto, ViajeRespons
     private CamionService camionService;
 
     @Autowired
-    private IEmpleadoService empleadoService;
+    private EmpleadoService empleadoService;
 
     @Autowired
-    private Mapper<Viaje, ViajeRequestDto, ViajeResponseDto> servicesMapper;
+    private Mapper<Viaje, ViajeRequestDto, ViajeResponseDto> viajeMapper;
 
     @Autowired
     private ClienteMapper clienteMapper;
-    
+
     @Autowired
     private PageMapper pageMapper;
 
@@ -58,37 +53,30 @@ public class ViajeService implements EntityService<ViajeRequestDto, ViajeRespons
 
     @Override
     public ViajeResponseDto update(Long id, ViajeRequestDto requestDto) {
-        if(servicesRepository.existsById(id)) {
-            return saveAndGetResponseDto(id, requestDto);
-        }else{
+        if(!viajeRepository.existsById(id))
             throw new EntityNotFoundException(MessageUtil.entityNotFound(id));
-        }
+        return saveAndGetResponseDto(id, requestDto);
     }
 
     @Override
     public ViajeResponseDto getById(Long id) {
-        Viaje service = servicesRepository
-                .findById(id)
-                .orElseThrow(()-> new EntityNotFoundException(MessageUtil.entityNotFound(id)));
-
-        return setClientesAndGetResponseDto(service);
+        Viaje viaje = viajeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(MessageUtil.entityNotFound(id)));
+        return setClienteAndGetResponseDto(viaje);
     }
 
     @Override
     public List<ViajeResponseDto> getAll() {
-        return servicesRepository
-                .findAll()
+        return viajeRepository.findAll()
                 .stream()
-                .map(this::setClientesAndGetResponseDto)
+                .map(this::setClienteAndGetResponseDto)
                 .toList();
     }
 
     @Override
     public CustomPage<ViajeResponseDto> getByPage(Pageable pageable) {
-        Page<ViajeResponseDto> page = servicesRepository
-                .findAll(pageable)
-                .map(this::setClientesAndGetResponseDto);
-
+        Page<ViajeResponseDto> page = viajeRepository.findAll(pageable)
+                .map(this::setClienteAndGetResponseDto);
         return pageMapper.pageToCustomPage(page);
     }
 
@@ -96,77 +84,32 @@ public class ViajeService implements EntityService<ViajeRequestDto, ViajeRespons
     @Transactional
     public void delete(Long id) {
         try {
-            servicesRepository.softDelete(id);
+            viajeRepository.softDelete(id);
         } catch (Exception e) {
             throw new CannotDeleteEntityException(MessageUtil.entityCannotDelete(id, e.getMessage()));
         }
     }
 
-    private RelatedEntites validateRelatedEntities(ViajeRequestDto servicesRequestDto){
-        RelatedEntites relatedEntites = new RelatedEntites();
-        relatedEntites.cliente = validateAndGetCliente(servicesRequestDto.getClienteId());
-        relatedEntites.camion = validateAndGetCamion(servicesRequestDto.getCamionId());
-        relatedEntites.empleado = validateAndGetEmpleado(servicesRequestDto.getEmpleadoId());
-
-        return relatedEntites;
-    }
-
-    private Camion validateAndGetCamion(Long id) {
-        var camion = camionService.findById(id);
-
-        if(camion.isEmpty() || camion.get().isDeleted())
-            throw new EntityNotFoundOrInactiveException(MessageUtil.entityNotFoundOrInactive(id));
-
-        return camion.get();
-    }
-
-    private Cliente validateAndGetCliente(Long id) {
-        var cliente = clienteService.findById(id);
-
-        if(cliente.isEmpty() || cliente.get().isDeleted())
-            throw new EntityNotFoundOrInactiveException(MessageUtil.entityNotFoundOrInactive(id));
-
-        return cliente.get();
-    }
-
-    private Empleado validateAndGetEmpleado(Long id) {
-        var empleado = empleadoService.findById(id);
-
-        if(empleado.isEmpty() || empleado.get().isDeleted())
-            throw new EntityNotFoundOrInactiveException(MessageUtil.entityNotFoundOrInactive(id));
-
-        return empleado.get();
-    }
-
-    private ViajeResponseDto setClientesAndGetResponseDto(Viaje service){
-        var response = servicesMapper.entityToDto(service);
-        response.setCliente(clienteMapper.entityToBasicDto(service.getCliente()));
-
+    private ViajeResponseDto setClienteAndGetResponseDto(Viaje viaje){
+        var response = viajeMapper.entityToDto(viaje);
+        response.setCliente(clienteMapper.entityToBasicDto(viaje.getCliente()));
         return response;
     }
 
     private ViajeResponseDto saveAndGetResponseDto(Long id, ViajeRequestDto requestDto){
-        Viaje service = servicesMapper.dtoToEntity(requestDto);
-        service.setId(id);
+        Viaje viaje = viajeMapper.dtoToEntity(requestDto);
+        viaje.setId(id);
 
-        LocalDate startDate = servicesRepository.findFechaSalidaById(id);
-        if (requestDto.getEstado() == ServiceStatus.IN_PROGRESS && startDate == null) {
-            service.setFechaSalida(LocalDate.now());
-        } else {
-            service.setFechaSalida(startDate);
-        }
+        Cliente cliente = clienteService.findByIdOrThrow(requestDto.getClienteId());
+        Camion camion = camionService.findByIdOrThrow(requestDto.getCamionId());
+        Empleado empleado = null;
+        if(requestDto.getEmpleadoId() != null)
+            empleado = empleadoService.findByIdOrThrow(requestDto.getEmpleadoId());
 
-        if(requestDto.getEstado() == ServiceStatus.FINISHED){
-            service.setFechaEstimadaEntrega(LocalDate.now());
-        } else {
-            service.setFechaEstimadaEntrega(null);
-        }
+        viaje.setCliente(cliente);
+        viaje.setCamion(camion);
+        viaje.setEmpleado(empleado);
 
-        RelatedEntites relatedEntites = validateRelatedEntities(requestDto);
-        service.setCliente(relatedEntites.cliente);
-        service.setCamion(relatedEntites.camion);
-        service.setEmpleado(relatedEntites.empleado);
-
-        return setClientesAndGetResponseDto(servicesRepository.save(service));
+        return setClienteAndGetResponseDto(viajeRepository.save(viaje));
     }
 }
