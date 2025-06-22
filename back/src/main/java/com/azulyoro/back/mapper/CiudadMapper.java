@@ -1,6 +1,7 @@
 package com.azulyoro.back.mapper;
 
 import com.azulyoro.back.dto.request.CiudadRequestDto;
+import com.azulyoro.back.dto.response.CiudadBasicResponseDto;
 import com.azulyoro.back.dto.response.CiudadResponseDto;
 import com.azulyoro.back.model.Ciudad;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,15 @@ public class CiudadMapper implements Mapper<Ciudad, CiudadRequestDto, CiudadResp
                 .nombre(ciudadRequestDto.getNombre())
                 .provincia(ciudadRequestDto.getProvincia())
                 .isDeleted(false)
+                .build();
+    }
+
+    public CiudadBasicResponseDto entityToBasicDto(Ciudad ciudad) {
+        if (ciudad == null) return null;
+
+        return CiudadBasicResponseDto.builder()
+                .id(ciudad.getId())
+                .nombre(ciudad.getNombre())
                 .build();
     }
 }
