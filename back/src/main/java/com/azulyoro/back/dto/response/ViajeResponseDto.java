@@ -12,14 +12,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ViajeResponseDto{
+public class ViajeResponseDto {
     private Long id;
     private ServiceStatus estado;
-    private LocalDate pagoFecha;
     private Double precio;
     private LocalDate fechaSalida;
     private LocalDate fechaEstimadaEntrega;
+
     private CamionBasicResponseDto camion;
     private ClienteBasicResponseDto cliente;
     private EmpleadoBasicResponseDto empleado;
+
+    private CiudadBasicResponseDto origen;
+    private CiudadBasicResponseDto destino;
+
+    private String observaciones;
 }

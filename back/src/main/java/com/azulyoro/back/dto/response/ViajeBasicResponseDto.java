@@ -15,9 +15,14 @@ import java.time.LocalDate;
 public class ViajeBasicResponseDto {
     private Long id;
     private ServiceStatus estado;
-    private LocalDate fechaPago;
     private Double precio;
     private LocalDate fechaSalida;
     private LocalDate fechaEstimadaEntrega;
+
     private CamionBasicResponseDto camion;
+
+    private CiudadBasicResponseDto origen;
+    private CiudadBasicResponseDto destino;
+
+    private String observaciones;
 }
