@@ -2,10 +2,14 @@ package com.azulyoro.back.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @MappedSuperclass
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -199,8 +199,8 @@ export class ViajeComponent implements OnInit {
 
     const showedEstado: string = this.mapStatusToDescription(viaje.estado);
 
-    const nombreCliente: string = viaje.cliente.businessName 
-      ? viaje.cliente.businessName 
+    const nombreCliente: string = viaje.cliente.razonSocial 
+      ? viaje.cliente.razonSocial 
       : `Nombre indefinido`;
 
     viaje = {

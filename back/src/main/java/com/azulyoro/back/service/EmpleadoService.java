@@ -5,6 +5,7 @@ import com.azulyoro.back.dto.request.RegisterRequest;
 import com.azulyoro.back.dto.response.EmpleadoResponseDto;
 import com.azulyoro.back.dto.response.ServicesBasicResponseDto;
 import com.azulyoro.back.exception.CannotDeleteEntityException;
+import com.azulyoro.back.exception.EntityNotFoundOrInactiveException;
 import com.azulyoro.back.exception.FieldNotValidException;
 import com.azulyoro.back.exception.UserAlreadyRegistered;
 import com.azulyoro.back.mapper.EmpleadoMapper;
@@ -154,5 +155,11 @@ public class EmpleadoService implements IEmpleadoService{
         Empleado empleado = validateAndProcessRequest(registerRequest);
 
         return empleadoRepository.save(empleado);
+    }
+
+    public Empleado findByIdOrThrow(Long id) {
+        return empleadoRepository.findById(id)
+            .filter(e -> !e.isDeleted())
+            .orElseThrow(() -> new EntityNotFoundOrInactiveException(MessageUtil.entityNotFoundOrInactive(id)));
     }
 }

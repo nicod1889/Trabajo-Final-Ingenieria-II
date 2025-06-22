@@ -40,7 +40,7 @@ export class ClienteComponent {
   columns : Column []= [
     {
       header: "Nombre empresa",
-      field: "businessName",
+      field: "razonSocial",
       sortable: true
     },
     {

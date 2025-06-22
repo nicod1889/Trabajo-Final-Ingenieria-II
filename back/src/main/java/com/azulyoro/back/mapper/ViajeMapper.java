@@ -11,54 +11,79 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ViajeMapper implements Mapper<Viaje, ViajeRequestDto, ViajeResponseDto> {
+
     @Autowired
     private CamionMapper camionMapper;
 
     @Autowired
     private EmpleadoMapper empleadoMapper;
 
+    @Autowired
+    private ClienteMapper clienteMapper;
+
+    @Autowired
+    private CiudadMapper ciudadMapper;
+
     @Override
-    public ViajeResponseDto entityToDto(Viaje service){
+    public ViajeResponseDto entityToDto(Viaje viaje) {
         return ViajeResponseDto.builder()
-                .id(service.getId())
-                .estado(service.getEstado())
-                .precio(service.getPrecio())
-                .fechaSalida(service.getFechaSalida())
-                .fechaEstimadaEntrega(service.getFechaEstimadaEntrega())
-                .camion(camionMapper.entityToBasicDto(service.getCamion()))
-                .empleado(empleadoMapper.entityToBasicDto(service.getEmpleado()))
-                .pagoFecha((service.getPago() != null) ? service.getPago().getDate() : null)
+                .id(viaje.getId())
+                .estado(viaje.getEstado())
+                .precio(viaje.getPrecio())
+                .fechaSalida(viaje.getFechaSalida())
+                .fechaEstimadaEntrega(viaje.getFechaEstimadaEntrega())
+                .camion(camionMapper.entityToBasicDto(viaje.getCamion()))
+                .empleado(empleadoMapper.entityToBasicDto(viaje.getEmpleado()))
+                .cliente(clienteMapper.entityToBasicDto(viaje.getCliente()))
+                .origen(ciudadMapper.entityToBasicDto(viaje.getOrigen()))
+                .destino(ciudadMapper.entityToBasicDto(viaje.getDestino()))
+                .observaciones(viaje.getObservaciones())
                 .build();
     }
 
     @Override
-    public Viaje dtoToEntity(ViajeRequestDto serviceRequestDto){
+    public Viaje dtoToEntity(ViajeRequestDto dto) {
         return Viaje.builder()
-                .estado(serviceRequestDto.getEstado())
-                .precio(serviceRequestDto.getPrecio())
-                .build();
+            .estado(dto.getEstado())
+            .precio(dto.getPrecio())
+            .fechaSalida(dto.getFechaSalida())
+            .fechaEstimadaEntrega(dto.getFechaEstimadaEntrega())
+            .observaciones(dto.getObservaciones())
+            .numOrden(dto.getNumOrden())
+            .cliente(Cliente.builder().id(dto.getClienteId()).build())
+            .camion(Camion.builder().id(dto.getCamionId()).build())
+            .empleado(Empleado.builder().id(dto.getEmpleadoId()).build())
+            .carga(Carga.builder().id(dto.getCargaId()).build())
+            .origen(Ciudad.builder().id(dto.getOrigenId()).build())
+            .destino(Ciudad.builder().id(dto.getDestinoId()).build())
+            .build();
     }
 
-    public ViajeBasicResponseDto entityToBasicDto(Viaje service){
+    public ViajeBasicResponseDto entityToBasicDto(Viaje viaje) {
         return ViajeBasicResponseDto.builder()
-                .id(service.getId())
-                .estado(service.getEstado())
-                .camion(camionMapper.entityToBasicDto(service.getCamion()))
-                .precio(service.getPrecio())
-                .fechaSalida(service.getFechaSalida())
-                .fechaEstimadaEntrega(service.getFechaEstimadaEntrega())
-                .fechaPago((service.getPago() != null) ? service.getPago().getDate() : null)
+                .id(viaje.getId())
+                .estado(viaje.getEstado())
+                .precio(viaje.getPrecio())
+                .fechaSalida(viaje.getFechaSalida())
+                .fechaEstimadaEntrega(viaje.getFechaEstimadaEntrega())
+                .camion(camionMapper.entityToBasicDto(viaje.getCamion()))
+                .origen(ciudadMapper.entityToBasicDto(viaje.getOrigen()))
+                .destino(ciudadMapper.entityToBasicDto(viaje.getDestino()))
+                .observaciones(viaje.getObservaciones())
                 .build();
     }
 
-    public ViajeForCamionDto entityToViajeForCamionDto(Viaje service){
+    public ViajeForCamionDto entityToViajeForCamionDto(Viaje viaje) {
         return ViajeForCamionDto.builder()
-                .id(service.getId())
-                .estado(service.getEstado())
-                .precio(service.getPrecio())
-                .fechaSalida(service.getFechaSalida())
-                .fechaEstimadaEntrega(service.getFechaEstimadaEntrega())
-                .fechaPago((service.getPago() != null) ? service.getPago().getDate() : null)
+                .id(viaje.getId())
+                .estado(viaje.getEstado())
+                .precio(viaje.getPrecio())
+                .fechaSalida(viaje.getFechaSalida())
+                .fechaEstimadaEntrega(viaje.getFechaEstimadaEntrega())
+                .cliente(clienteMapper.entityToBasicDto(viaje.getCliente()))
+                .origen(ciudadMapper.entityToBasicDto(viaje.getOrigen()))
+                .destino(ciudadMapper.entityToBasicDto(viaje.getDestino()))
+                .observaciones(viaje.getObservaciones())
                 .build();
     }
 }

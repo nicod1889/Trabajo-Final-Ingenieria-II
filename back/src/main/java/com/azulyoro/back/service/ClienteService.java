@@ -5,6 +5,7 @@ import com.azulyoro.back.dto.request.ClienteRequestDto;
 import com.azulyoro.back.dto.response.ClienteResponseDto;
 import com.azulyoro.back.exception.CannotDeleteActiveServicesException;
 import com.azulyoro.back.exception.CannotDeleteEntityException;
+import com.azulyoro.back.exception.EntityNotFoundOrInactiveException;
 import com.azulyoro.back.mapper.Mapper;
 import com.azulyoro.back.mapper.PageMapper;
 import com.azulyoro.back.model.Cliente;
@@ -102,6 +103,12 @@ public class ClienteService implements EntityService<ClienteRequestDto, ClienteR
         );
 
         if(hasRelatedIncomplete) throw new CannotDeleteActiveServicesException(MessageUtil.entityRelatedCannotDelete(id));
+    }
+
+    public Cliente findByIdOrThrow(Long id) {
+        return clienteRepository.findById(id)
+            .filter(c -> !c.isDeleted())
+            .orElseThrow(() -> new EntityNotFoundOrInactiveException(MessageUtil.entityNotFoundOrInactive(id)));
     }
 
     public Optional<Cliente> findById(Long id) {

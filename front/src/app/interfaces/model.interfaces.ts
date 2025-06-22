@@ -3,7 +3,7 @@ export interface ClienteRequest{
     categoria: DocumentType;
     numeroIdentificacion: number;
     email: string;
-    businessName?: string;
+    razonSocial?: string;
 }
 
 export interface ClienteResponse{
@@ -11,7 +11,7 @@ export interface ClienteResponse{
     categoria: DocumentType;
     numeroIdentificacion: number;
     email: string;
-    businessName?: string;
+    razonSocial?: string;
     deleted?: boolean;
     //TODO agregar servicios vinculados, cuando esten disponibles
 }
@@ -233,7 +233,7 @@ export interface ClienteBasicResponse{
     categoria: DocumentType;
     numeroIdentificacion: number;
     email: string;
-    businessName?: string;
+    razonSocial?: string;
     deleted?: boolean;
 }
 

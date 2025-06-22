@@ -156,7 +156,7 @@ export class ViajeFormComponent implements OnInit, OnChanges {
   }
 
   getNombreCliente(cliente: ClienteResponse): string {
-    return cliente.businessName ?? 'Nombre indefinido';
+    return cliente.razonSocial ?? 'Nombre indefinido';
   }
 
   getNombreEmpleado(empleado: EmpleadoResponse): string {

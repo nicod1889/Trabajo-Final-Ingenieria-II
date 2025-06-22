@@ -9,6 +9,7 @@ import com.azulyoro.back.dto.request.CamionRequestDto;
 import com.azulyoro.back.dto.response.ViajeForCamionDto;
 import com.azulyoro.back.dto.response.CamionResponseDto;
 import com.azulyoro.back.exception.CannotDeleteEntityException;
+import com.azulyoro.back.exception.EntityNotFoundOrInactiveException;
 import com.azulyoro.back.mapper.ClienteMapper;
 import com.azulyoro.back.mapper.PageMapper;
 import com.azulyoro.back.mapper.ViajeMapper;
@@ -111,10 +112,6 @@ public class CamionService implements EntityService<CamionRequestDto, CamionResp
         }
     }
 
-    public Optional<Camion> findById(Long id) {
-        return camionRepository.findById(id);
-    }
-
     private CamionResponseDto setViajeAndGetResponseDto(Camion camion){
         var response = camionMapper.entityToDto(camion);
         response.setViaje(getViajeForCamion(camion));
@@ -133,5 +130,15 @@ public class CamionService implements EntityService<CamionRequestDto, CamionResp
                     return viaje;
                 })
                 .toList();
+    }
+
+    public Camion findByIdOrThrow(Long id) {
+        return camionRepository.findById(id)
+            .filter(c -> !c.isDeleted())
+            .orElseThrow(() -> new EntityNotFoundOrInactiveException(MessageUtil.entityNotFoundOrInactive(id)));
+    }
+
+    public Optional<Camion> findById(Long id) {
+        return camionRepository.findById(id);
     }
 }

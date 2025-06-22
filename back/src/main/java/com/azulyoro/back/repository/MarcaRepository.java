@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MarcaRepository extends JpaRepository<Marca, Long> {
     @Modifying
-    @Query("update Marca b set b.isDeleted = true where b.id = ?1")
+    @Query("update Marca m set m.isDeleted = true where m.id = ?1")
     void softDelete(Long id);
 }

@@ -13,6 +13,6 @@ public class ClienteBasicResponseDto {
     private TipoIdentificacion category;
     private Long numeroIdentificacion;
     private String email;
-    private String businessName;
+    private String razonSocial;
     private boolean isDeleted;
 }

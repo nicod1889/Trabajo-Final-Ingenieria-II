@@ -197,8 +197,8 @@ export class ServicesComponent implements OnInit {
 
     const showedStatus: string = this.mapStatusToDescription(service.status);
 
-    const ClientName: string = service.Client.businessName 
-      ? service.Client.businessName 
+    const ClientName: string = service.Client.razonSocial 
+      ? service.Client.razonSocial 
       : `Nombre indefinido`;
 
     service = {

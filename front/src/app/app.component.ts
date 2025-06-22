@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet, NavigationStart } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -18,10 +18,14 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   isSidebarVisible: boolean = false;
 
-  constructor(private router: Router, private messageService: MessageService) { }
+  constructor(private router: Router, private messageService: MessageService) {}
 
-  toggleSidebar() {
-    this.isSidebarVisible = !this.isSidebarVisible;
+  showSidebar() {
+  this.isSidebarVisible = true;
+  }
+
+  hideSidebar() {
+    this.isSidebarVisible = false;
   }
 
   showToast() {
