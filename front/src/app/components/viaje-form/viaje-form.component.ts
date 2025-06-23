@@ -5,7 +5,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { CamionService } from '../../services/camion.service';
 import { ClienteService } from '../../services/cliente.service';
 import { EmpleadoService } from '../../services/empleado.service';
-import { ClienteResponse, EmpleadoBasicResponse, EmpleadoResponse, ServiceResponse, SparePartResponse, StatusService, CamionResponse } from '../../interfaces/model.interfaces';
+import { ClienteResponse, EmpleadoResponse, ServiceResponse, SparePartResponse, StatusService, CamionResponse, CargaResponse, CiudadResponse } from '../../interfaces/model.interfaces';
 import { DialogModule } from 'primeng/dialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -17,11 +17,14 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { hasValidRoles } from '../../util/rolesUtil';
 import { AuthService } from '../../auth/auth.service';
 import { markAllAsTouched } from '../../util/formUtils';
+import { CargaService } from '../../services/carga.service';
+import { CiudadService } from '../../services/ciudad.service';
+import { CalendarModule } from 'primeng/calendar';
 
 @Component({
   selector: 'app-viaje-form',
   standalone: true,
-  imports: [FormComponent, DialogModule, FloatLabelModule, InputNumberModule, InputTextModule, DropdownModule, ButtonModule, CommonModule, ReactiveFormsModule, MultiSelectModule],
+  imports: [DialogModule, FloatLabelModule, InputNumberModule, InputTextModule, DropdownModule, ButtonModule, CommonModule, ReactiveFormsModule, MultiSelectModule, CalendarModule],
   templateUrl: './viaje-form.component.html',
   styleUrl: './viaje-form.component.css'
 })
@@ -39,6 +42,8 @@ export class ViajeFormComponent implements OnInit, OnChanges {
   camiones: { label: string, value: number }[] = [];
   clientes: { label: string, value: number }[] = [];
   empleados: { label: string, value: number }[] = [];
+  ciudades: { label: string, value: number }[] = [];
+  cargas: { label: string, value: number }[] = [];
   statusOptions: { label: string, value: StatusService }[] = [
     { label: 'Pendiente', value: StatusService.TO_DO },
     { label: 'En progreso', value: StatusService.IN_PROGRESS },
@@ -59,9 +64,46 @@ export class ViajeFormComponent implements OnInit, OnChanges {
     private camionService: CamionService,
     private clienteService: ClienteService, 
     private empleadoService: EmpleadoService,
+    private ciudadService: CiudadService,
+    private cargaService: CargaService,
     private authService : AuthService
   ){    
     this.fields = [
+      {
+        label: 'Número de Orden',
+        controlName: 'numOrden',
+        type: TypeField.NUMBER,
+        isCurrency: false,
+        errorMessage: 'Ingrese un número de orden',
+        validators: [Validators.required, Validators.min(1)],
+        disabledOnUpdate: !this.canEdit
+      },
+      {
+        label: 'Estado',
+        controlName: 'estado',
+        type: TypeField.SELECT,
+        placeholder: '',
+        selectList: this.statusOptions,
+        errorMessage: 'Indique un estado',
+        validators: [Validators.required],
+        disabledOnUpdate: !this.canEdit
+      },
+      {
+        label: 'Fecha de salida',
+        controlName: 'fechaSalida',
+        type: TypeField.CALENDAR,
+        errorMessage: 'Seleccione una fecha',
+        validators: [Validators.required],
+        disabledOnUpdate: !this.canEdit
+      },
+      {
+        label: 'Fecha estimada de entrega',
+        controlName: 'fechaEstimadaEntrega',
+        type: TypeField.CALENDAR,
+        errorMessage: 'Seleccione una fecha',
+        validators: [Validators.required],
+        disabledOnUpdate: !this.canEdit
+      },
       {
         label: 'Camión',
         controlName: 'camionId',
@@ -73,8 +115,18 @@ export class ViajeFormComponent implements OnInit, OnChanges {
         disabledOnUpdate: !this.canEdit
       },
       {
+        label: 'Camionero',
+        controlName: 'empleadoId',
+        type: TypeField.SELECT,
+        placeholder: '',
+        selectList: this.empleados,
+        errorMessage: 'Seleccione un camionero',
+        validators: [Validators.required],
+        disabledOnUpdate: !this.canEdit
+      },
+      {
         label: 'Cliente',
-        controlName: 'clientId',
+        controlName: 'clienteId',
         type: TypeField.SELECT,
         placeholder: '',
         errorMessage: 'Seleccione un cliente',
@@ -83,28 +135,50 @@ export class ViajeFormComponent implements OnInit, OnChanges {
         disabledOnUpdate: !this.canEdit
       },
       {
-        label: 'Empleado',
-        controlName: 'empleadoId',
+        label: 'Carga',
+        controlName: 'cargaId',
         type: TypeField.SELECT,
         placeholder: '',
-        selectList: this.empleados,
+        errorMessage: 'Seleccione una carga',
+        selectList: this.cargas,
+        validators: [Validators.required],
         disabledOnUpdate: !this.canEdit
       },
       {
-        label: 'Estado',
-        controlName: 'estado',
+        label: 'Ciudad Origen',
+        controlName: 'origenId',
         type: TypeField.SELECT,
         placeholder: '',
-        selectList: this.statusOptions,
-        errorMessage: 'Indique un estado',
+        errorMessage: 'Seleccione una ciudad de origen',
+        selectList: this.ciudades,
         validators: [Validators.required],
-        disabledOnCreate: true
+        disabledOnUpdate: !this.canEdit
+      },
+      {
+        label: 'Ciudad Destino',
+        controlName: 'destinoId',
+        type: TypeField.SELECT,
+        placeholder: '',
+        errorMessage: 'Seleccione una ciudad de destino',
+        selectList: this.ciudades,
+        validators: [Validators.required],
+        disabledOnUpdate: !this.canEdit
       },
       {
         label: 'Precio',
         controlName: 'precio',
         type: TypeField.NUMBER,
-        placeholder: '$0.00',
+        isCurrency: true,
+        errorMessage: 'Ingrese un precio',
+        validators: [Validators.required],
+        disabledOnUpdate: !this.canEdit
+      },
+      {
+        label: 'Observaciones',
+        controlName: 'observaciones',
+        type: TypeField.TEXT,
+        placeholder: 'Notas adicionales...',
+        validators: [],
         disabledOnUpdate: !this.canEdit
       }
     ]
@@ -116,6 +190,8 @@ export class ViajeFormComponent implements OnInit, OnChanges {
     this.getCamiones();
     this.getClientes();
     this.getCamioneros();
+    this.getCiudades();
+    this.getCargas();
   }
 
   private initForm() {
@@ -130,13 +206,24 @@ export class ViajeFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
+    console.log('Datos recibidos en edición:', this.data);
+    
     if(this.data){
-      const sparePartsIds = this.data.spareParts?.map((sparePart: SparePartResponse) => sparePart.id);
+      const [y1, m1, d1] = this.data.fechaSalida.split('-').map(Number);
+      const [y2, m2, d2] = this.data.fechaEstimadaEntrega.split('-').map(Number);
 
       const service = {
         ...this.data,
         clienteId: this.data.cliente.id,
         camionId: this.data.camion.id,
+        empleadoId: this.data.empleado?.id,
+        origenId: this.data.origen?.id,
+        destinoId: this.data.destino?.id,
+        cargaId: this.data.carga?.id,
+        numOrden: this.data.numOrden,
+        observaciones: this.data.observaciones,
+        fechaSalida: new Date(y1, m1 - 1, d1),
+        fechaEstimadaEntrega: new Date(y2, m2 - 1, d2)
       };
 
       this.form.patchValue(service);
@@ -195,10 +282,7 @@ export class ViajeFormComponent implements OnInit, OnChanges {
 
   sendData(){
     markAllAsTouched(this.form);
-
-    if(this.form.valid){
-      (this.isEditMode) ? this.onUpdate.emit(this.form.value) : this.onSave.emit(this.form.value);
-    }
+    (this.isEditMode) ? this.onUpdate.emit(this.form.value) : this.onSave.emit(this.form.value);
   }
 
   hasError(nameField : any){
@@ -233,7 +317,7 @@ export class ViajeFormComponent implements OnInit, OnChanges {
           label: this.getNombreCliente(cliente),
           value: cliente.id
         }));
-      this.fields.find(field => field.controlName === 'clientId')!.selectList = this.clientes;
+      this.fields.find(field => field.controlName === 'clienteId')!.selectList = this.clientes;
     });
   }
 
@@ -246,6 +330,27 @@ export class ViajeFormComponent implements OnInit, OnChanges {
           value: camion.id
         }));
       this.fields.find(field => field.controlName === 'camionId')!.selectList = this.camiones;
+    });
+  }
+
+  getCiudades() {
+    this.ciudadService.getAll().subscribe((ciudades: CiudadResponse[]) => {
+      this.ciudades = ciudades.map(c => ({
+        label: c.nombre,
+        value: c.id
+      }));
+      this.fields.find(f => f.controlName === 'origenId')!.selectList = this.ciudades;
+      this.fields.find(f => f.controlName === 'destinoId')!.selectList = this.ciudades;
+    });
+  }
+
+  getCargas() {
+    this.cargaService.getAll().subscribe((cargas: CargaResponse[]) => {
+      this.cargas = cargas.map(c => ({
+        label: c.nombre || `Carga #${c.id}`,
+        value: c.id
+      }));
+      this.fields.find(f => f.controlName === 'cargaId')!.selectList = this.cargas;
     });
   }
 }

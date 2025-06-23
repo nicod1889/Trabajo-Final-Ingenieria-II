@@ -24,10 +24,14 @@ public class ViajeMapper implements Mapper<Viaje, ViajeRequestDto, ViajeResponse
     @Autowired
     private CiudadMapper ciudadMapper;
 
+    @Autowired
+    private CargaMapper cargaMapper;
+
     @Override
     public ViajeResponseDto entityToDto(Viaje viaje) {
         return ViajeResponseDto.builder()
                 .id(viaje.getId())
+                .numOrden(viaje.getNumOrden())
                 .estado(viaje.getEstado())
                 .precio(viaje.getPrecio())
                 .fechaSalida(viaje.getFechaSalida())
@@ -37,6 +41,7 @@ public class ViajeMapper implements Mapper<Viaje, ViajeRequestDto, ViajeResponse
                 .cliente(clienteMapper.entityToBasicDto(viaje.getCliente()))
                 .origen(ciudadMapper.entityToBasicDto(viaje.getOrigen()))
                 .destino(ciudadMapper.entityToBasicDto(viaje.getDestino()))
+                .carga(cargaMapper.entityToBasicDto(viaje.getCarga()))
                 .observaciones(viaje.getObservaciones())
                 .build();
     }

@@ -20,6 +20,7 @@ export interface FormField{
     max? : number;
     maxLength? : number;
     defaultValue? : any;
+    isCurrency?: boolean;
 }
 
 export enum TypeField{

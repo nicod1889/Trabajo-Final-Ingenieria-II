@@ -90,34 +90,48 @@ export interface CiudadResponse{
     deleted: boolean;
 }
 
-// VIAJE
-export interface ViajeRequest{
-    clientId: number;
-    camionId: number;
-    fechaSalida: Date;
-    fechaEstimadaEntrega: Date;
-    estado: StatusService;
-    precio: number;
-    fechaPago: Date;
+export interface CiudadBasicResponse {
+  id: number;
+  nombre: string;
 }
 
-export interface ViajeResponse{
-    id: number;
+// VIAJE
+export interface ViajeRequest {
+    clienteId: number;
+    camionId: number;
+    empleadoId: number;
     estado: StatusService;
-    fechaPago: Date;
     precio: number;
+    numOrden: number;
+    origenId: number;
+    destinoId: number;
     fechaSalida: string;
     fechaEstimadaEntrega: string;
-    camion: CamionBasicResponse;
-    cliente: ClienteBasicResponse;
-    empleado: EmpleadoBasicResponse;
-    camionCompound: string;
-    empleadoCompound: string;
-    showedEstado: string;
-    nombreCliente: string;
-    fechaSalidaEs: string;
-    fechaEstimadaEntregaEs?: string;
-    precioCurrency: string;
+    cargaId: number;
+    observaciones?: string;
+}
+
+export interface ViajeResponse {
+  id: number;
+  estado: StatusService;
+  precio: number;
+  fechaSalida: string;
+  fechaEstimadaEntrega: string;
+  numOrden: number;
+  camion: CamionBasicResponse;
+  cliente: ClienteBasicResponse;
+  empleado: EmpleadoBasicResponse;
+  origen: CiudadBasicResponse;
+  destino: CiudadBasicResponse;
+  carga?: CargaBasicResponse;
+  observaciones?: string;
+  camionCompound?: string;
+  empleadoCompound?: string;
+  showedEstado?: string;
+  nombreCliente?: string;
+  fechaSalidaEs?: string;
+  fechaEstimadaEntregaEs?: string;
+  precioCurrency?: string;
 }
 
 //SERVICES

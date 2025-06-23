@@ -167,3 +167,7 @@ insert into cliente (category, numero_identificacion, email, razon_social, is_de
 insert into cliente (category, numero_identificacion, email, razon_social, is_deleted) values ('CUIT', 30876598765, 'papeleria@torrespapel.com', 'Papeleria Torres', false);
 insert into cliente (category, numero_identificacion, email, razon_social, is_deleted) values ('CUIT', 30665498732, 'zapatos@santanashoes.com', 'Santana Shoes', false);
 insert into cliente (category, numero_identificacion, email, razon_social, is_deleted) values ('CUIT', 30756987412, 'distribucion@lacteosrivas.com.ar', 'Lacteos Rivas', false);
+
+insert into viaje (num_orden, estado, fecha_salida, fecha_estimada_entrega, camion_id, cliente_id, empleado_id, carga_id, ciudad_origen_id, ciudad_destino_id, precio, observaciones) values (1001, 'TO_DO', '2025-06-23', '2025-06-25', 1, 1, 1, 1, 1, 2, 120000, 'Carga urgente de electrodomésticos');
+insert into viaje (num_orden, estado, fecha_salida, fecha_estimada_entrega, camion_id, cliente_id, empleado_id, carga_id, ciudad_origen_id, ciudad_destino_id, precio, observaciones) values (1002, 'IN_PROGRESS', '2025-06-20', '2025-06-24', 2, 2, 2, 2, 2, 3, 98000, 'Entrega parcial en ruta');
+insert into viaje (num_orden, estado, fecha_salida, fecha_estimada_entrega, camion_id, cliente_id, empleado_id, carga_id, ciudad_origen_id, ciudad_destino_id, precio, observaciones) values (1003, 'FINISHED', '2025-06-10', '2025-06-12', 3, 3, 3, 3, 3, 1, 150000, 'Servicio completado sin novedades');

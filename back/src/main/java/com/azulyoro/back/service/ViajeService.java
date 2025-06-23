@@ -47,14 +47,55 @@ public class ViajeService implements EntityService<ViajeRequestDto, ViajeRespons
 
     @Override
     public ViajeResponseDto create(ViajeRequestDto requestDto) {
-        if(requestDto.getEstado() == null) requestDto.setEstado(ServiceStatus.TO_DO);
+        if (requestDto.getEstado() == null) requestDto.setEstado(ServiceStatus.TO_DO);
+
+        boolean camionOcupado = viajeRepository.existsByCamionIdAndEstadoIn(
+            requestDto.getCamionId(),
+            List.of(ServiceStatus.TO_DO, ServiceStatus.IN_PROGRESS)
+        );
+        if (camionOcupado) {
+            throw new IllegalStateException("El camión seleccionado no está disponible.");
+        }
+
+        boolean empleadoOcupado = viajeRepository.existsByEmpleadoIdAndEstadoIn(
+            requestDto.getEmpleadoId(),
+            List.of(ServiceStatus.TO_DO, ServiceStatus.IN_PROGRESS)
+        );
+        if (empleadoOcupado) {
+            throw new IllegalStateException("El conductor seleccionado no está disponible.");
+        }
+
         return saveAndGetResponseDto(null, requestDto);
     }
 
     @Override
     public ViajeResponseDto update(Long id, ViajeRequestDto requestDto) {
-        if(!viajeRepository.existsById(id))
+        if (!viajeRepository.existsById(id)) {
             throw new EntityNotFoundException(MessageUtil.entityNotFound(id));
+        }
+
+        if (requestDto.getEstado() == null) {
+            requestDto.setEstado(ServiceStatus.TO_DO);
+        }
+
+        boolean camionOcupado = viajeRepository.existsByCamionIdAndEstadoInAndIdNot(
+            requestDto.getCamionId(),
+            List.of(ServiceStatus.TO_DO, ServiceStatus.IN_PROGRESS),
+            id
+        );
+        if (camionOcupado) {
+            throw new IllegalStateException("El camión seleccionado no está disponible.");
+        }
+
+        boolean empleadoOcupado = viajeRepository.existsByEmpleadoIdAndEstadoInAndIdNot(
+            requestDto.getEmpleadoId(),
+            List.of(ServiceStatus.TO_DO, ServiceStatus.IN_PROGRESS),
+            id
+        );
+        if (empleadoOcupado) {
+            throw new IllegalStateException("El conductor seleccionado no está disponible.");
+        }
+
         return saveAndGetResponseDto(id, requestDto);
     }
 

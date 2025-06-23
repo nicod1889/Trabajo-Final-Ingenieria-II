@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ViajeResponseDto {
     private Long id;
+    private Integer numOrden;
     private ServiceStatus estado;
     private Double precio;
     private LocalDate fechaSalida;
@@ -25,6 +26,8 @@ public class ViajeResponseDto {
 
     private CiudadBasicResponseDto origen;
     private CiudadBasicResponseDto destino;
+
+    private CargaBasicResponseDto carga;
 
     private String observaciones;
 }

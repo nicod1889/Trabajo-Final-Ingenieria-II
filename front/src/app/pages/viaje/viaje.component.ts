@@ -128,8 +128,11 @@ export class ViajeComponent implements OnInit {
         this.toast.showSuccessCreate();
       },
       error: (error) => {
-        this.toast.showErrorCreate();
-        console.error(error);
+        let msg = 'No se ha podido crear el registro.';
+        if (error?.error?.message) {
+          msg = error.error.message;
+        }
+        this.toast.showErrorCustom(msg);
       }
     });
   }
@@ -141,8 +144,11 @@ export class ViajeComponent implements OnInit {
         this.toast.showSuccessUpdate();
       },
       error: (error) => {
-        this.toast.showErrorUpdate();
-        console.error(error);
+        let msg = 'No se ha podido crear el registro.';
+        if (error?.error?.message) {
+          msg = error.error.message;
+        }
+        this.toast.showErrorCustom(msg);
       }
     });
   }
