@@ -39,15 +39,16 @@ export class SidebarComponent {
       isDisabled: !hasValidRoles(this.authService.employeeData, ["ROL_ADMIN", "ROL_ADMINISTRATIVO"])
     },
     {
+      label: 'Seguimiento de flota',
+      icon: 'pi pi-star-fill',
+      path: 'seguimientoFlota',
+      isDisabled: !hasValidRoles(this.authService.employeeData, ["ROL_ADMIN"])
+    },
+    {
       label: 'Clientes',
       icon: 'pi pi-users',
       path: 'Clientes',
       isDisabled: !hasValidRoles(this.authService.employeeData, ["ROL_ADMIN", "ROL_ADMINISTRATIVO"])
-    },
-    {
-      label: 'Pagos',
-      icon: 'pi pi-wallet',
-      isDisabled: !hasValidRoles(this.authService.employeeData, [])
     },
     {
       label: 'Camiones',
@@ -92,7 +93,7 @@ export class SidebarComponent {
   ){}
 
   sidebarStyle = {
-    border: 'none',
+    border: 'none'
   };
 
   hideEmit(){

@@ -71,8 +71,8 @@ export class HomeComponent {
     }
   }
 
-  goToServices() {
-    this.router.navigate(['/servicios']);
+  goToViajes() {
+    this.router.navigate(['/viajes']);
   }
     
 }

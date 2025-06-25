@@ -132,6 +132,9 @@ export interface ViajeResponse {
   fechaSalidaEs?: string;
   fechaEstimadaEntregaEs?: string;
   precioCurrency?: string;
+  origenNombre?: string;
+  destinoNombre?: string;
+  cargaNombre?: string;
 }
 
 //SERVICES

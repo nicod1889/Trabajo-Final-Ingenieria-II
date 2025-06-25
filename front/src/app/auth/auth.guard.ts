@@ -34,6 +34,19 @@ export const viajeGuard: CanActivateFn = (route, state) => {
   );
 };
 
+export const seguimientoFlotaGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return authService.currentemployeeLoginOn.pipe(
+    take(1),
+    map((loggedIn: boolean) => {
+      if(!loggedIn) router.navigate(['/login']);
+      return hasValidRoles(authService.employeeData, ["ROL_ADMIN"]);
+    })
+  );
+};
+
 export const ClientGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);

@@ -15,21 +15,20 @@ export class ConfirmDialogComponent {
     private confirmationService: ConfirmationService
   ){}
 
-  openDialog(id : any){
+  openDialog(id: any, customMessage?: string) {
     this.confirmationService.confirm({
-        header: 'Eliminar registro',
-        message: '¿Desea continuar?',
-        icon: 'pi pi-info-circle',
-        acceptButtonStyleClass:"p-button-outlined p-button-danger",
-        rejectButtonStyleClass:"p-button-outlined me-3",
-        acceptIcon: 'pi pi-check me-2',
-        rejectIcon: 'pi pi-times me-2',
-        acceptLabel: "Si",
-
-        accept: () => {
-            this.onConfirm.emit(id);
-        },
+      header: 'Eliminar registro',
+      message: customMessage || '¿Desea continuar?',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: "p-button-outlined p-button-danger",
+      rejectButtonStyleClass: "p-button-outlined me-3",
+      acceptIcon: 'pi pi-check me-2',
+      rejectIcon: 'pi pi-times me-2',
+      acceptLabel: "Sí",
+      accept: () => {
+        this.onConfirm.emit(id);
+      }
     });
-}
+  }
 
 }
