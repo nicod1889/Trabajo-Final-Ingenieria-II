@@ -1,0 +1,52 @@
+<div class="px-3 py-0 my-0 text-center">
+  <h1>{{ title }}</h1>
+</div>
+
+<div class="row px-3 pb-3 mt-5">
+  <div class="col-12 col-md-3 mb-3">
+    <label for="origen" class="form-label">Origen</label>
+    <p-dropdown [options]="ciudades" [(ngModel)]="filters.origenId" (onChange)="applyFilters()" [showClear]="true" optionLabel="label" optionValue="value" placeholder="No seleccionar" styleClass="w-100"> </p-dropdown>
+  </div>
+
+  <div class="col-12 col-md-3 mb-3">
+    <label for="destino" class="form-label">Destino</label>
+    <p-dropdown [options]="ciudades" [(ngModel)]="filters.destinoId" (onChange)="applyFilters()" [showClear]="true" optionLabel="label" optionValue="value" placeholder="No seleccionar" styleClass="w-100"> </p-dropdown>
+  </div>
+
+  <div class="col-12 col-md-3 mb-3">
+    <label for="carga" class="form-label">Carga</label>
+    <p-dropdown [options]="cargas" [(ngModel)]="filters.cargaId" (onChange)="applyFilters()" [showClear]="true" optionLabel="label" optionValue="value" placeholder="No seleccionar" styleClass="w-100">
+    </p-dropdown>
+  </div>
+
+  <div class="col-12 col-md-3 mb-3">
+    <label for="estado" class="form-label">Estado</label>
+    <p-dropdown [options]="estadoOptions" [(ngModel)]="filters.estado" (onChange)="applyFilters()" [showClear]="true" optionLabel="label" optionValue="value" placeholder="No seleccionar" styleClass="w-100">
+    </p-dropdown>
+  </div>
+</div>
+
+<app-page-card
+  [title]="title"
+  [labelButtonAdd]="labelButtonAdd"
+  [data]="viajeList"
+  [buttonConfig]="buttonConfig"
+  [canCreate]="canCreate"
+  [cardFields]="[
+    { label: 'Origen', field: 'origen.nombre' },
+    { label: 'Destino', field: 'destino.nombre' }
+  ]"
+  (onCreate)="openForm()"
+/>
+<div *ngIf="viajeList.length === 0" class="text-center text-gray-500 mt-4">
+  No hay viajes registrados
+</div>
+
+
+<app-toast #toast/>
+
+<app-confirm-dialog #dialog (onConfirm)="deleteViaje($event)" />
+
+<app-seguimientoFlota-form #form [data]="dataViaje" (onSave)="save($event)" (onUpdate)="update($event)" />
+
+<app-viaje-detail #detail />

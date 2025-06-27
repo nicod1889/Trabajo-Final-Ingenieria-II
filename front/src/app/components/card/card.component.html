@@ -1,0 +1,17 @@
+<div class="d-flex flex-column">
+  <div class="row">
+    <div class="col-3 mb-3" *ngFor="let item of filteredData">
+      <p-card [header]="'#' + (item?.numOrden || item?.id || 'Item')">
+        <p>
+          <ng-container *ngFor="let field of cardFields">
+            <strong>{{ field.label }}:</strong>
+            {{ getNestedProperty(item, field.field) }}<br />
+          </ng-container>
+        </p>
+        <ng-template pTemplate="footer">
+          <app-action-buttons [buttons]="buttonConfig" [data]="item" />
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+</div>

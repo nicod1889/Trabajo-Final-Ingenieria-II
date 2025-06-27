@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
-import { PageComponent } from '../../components/page/page.component';
-import { EmpleadoBasicResponse, StatusService, CamionBasicResponse, ViajeResponse, ViajeRequest, CargaResponse, CiudadResponse } from '../../interfaces/model.interfaces';
+import { StatusService, ViajeResponse, ViajeRequest, CargaResponse, CiudadResponse } from '../../interfaces/model.interfaces';
 import { Column } from '../../interfaces/components.interface';
 import { ToastComponent } from '../../components/toast/toast.component';
 import { CommonModule } from '@angular/common';
@@ -11,33 +10,32 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 import { hasValidRoles } from '../../util/rolesUtil';
 import { AuthService } from '../../auth/auth.service';
 import { ViajeService } from '../../services/viaje.service';
-import { ViajeFormComponent } from '../../components/viaje-form/viaje-form.component';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { CargaService } from '../../services/carga.service';
 import { CiudadService } from '../../services/ciudad.service';
 import { ViajeDetailComponent } from '../../components/viaje-detail.component';
+import { PageCardComponent } from "../../components/card/card.component";
+import { SeguimientoFlotaFormComponent } from '../../components/seguimientoFlota-form/seguimientoFlota-form.component';
 
 @Component({
   selector: 'app-viaje',
   standalone: true,
-  imports: [ButtonModule, TableModule, PageComponent, ToastComponent, ConfirmDialogComponent, ViajeFormComponent, CommonModule, FormsModule, DropdownModule, ViajeDetailComponent],
-  templateUrl: './viaje.component.html',
-  styleUrl: './viaje.component.css'
+  imports: [ButtonModule, TableModule, ToastComponent, ConfirmDialogComponent, CommonModule, FormsModule, DropdownModule, ViajeDetailComponent, PageCardComponent, SeguimientoFlotaFormComponent],
+  templateUrl: './seguimientoFlota.component.html',
 })
-export class ViajeComponent implements OnInit {
-  @ViewChild('form') form!: ViajeFormComponent;
+export class SeguimientoFlotaComponent implements OnInit {
+  @ViewChild('form') form!: SeguimientoFlotaFormComponent;
   @ViewChild('toast') toast!: ToastComponent;
   @ViewChild('dialog') dialog!: ConfirmDialogComponent;
   @ViewChild('detail') detailComponent!: ViajeDetailComponent;
 
-  title: string = "Viajes";
+  title: string = "Seguimiento de flota";
   labelButtonAdd: string = "Registrar nuevo viaje";
   status!: boolean;
   viajeList: ViajeResponse[] = [];
   idToUpdated?: number;
   dataViaje?: ViajeRequest;
-  viajeToDelete?: ViajeResponse;
 
   ciudades: { label: string, value: number }[] = [];
   cargas: { label: string, value: number }[] = [];
@@ -77,51 +75,26 @@ export class ViajeComponent implements OnInit {
       header: "Destino",
       field: "destinoNombre",
       sortable: true
-    },
-    {
-      header: "Estado",
-      field: "showedEstado",
-      sortable: true
-    },
-    {
-      header: "Camion",
-      field: "camionCompound",
-      sortable: true
-    },
-    {
-      header: "Camionero",
-      field: "empleadoCompound",
-      sortable: true
-    },
-    {
-      header: "Cliente",
-      field: "nombreCliente",
-      sortable: true
-    },
-    {
-      header: "Carga",
-      field: "cargaNombre",
-      sortable: true
-    },
+    }
   ]
 
   buttonConfig: ActionButtonConfig[] = [
     { 
       icon: 'pi pi-eye', 
-      tooltip: 'Ver', 
+      tooltip: 'Ver elementos relacionados', 
       severity: 'info', 
       action: (data: any) => this.linkService(data) 
     },
     { 
       icon: 'pi pi-pencil', 
-      tooltip: 'Modificar viaje', 
+      tooltip: 'Editar registro', 
       severity: 'success', 
       isDisabled: !this.canEdit,
       action: (data: any) => this.canEdit ? this.openFormEdit(data) : null 
     },
     { 
       icon: 'pi pi-trash', 
-      tooltip: 'Eliminar viaje', 
+      tooltip: 'Borrar registro', 
       severity: 'danger', 
       isDisabled: !this.canRemove,
       action: (data: any) => this.canRemove ? this.openConfirmDialog(data) : null
@@ -134,6 +107,7 @@ export class ViajeComponent implements OnInit {
     private ciudadService: CiudadService,
     private cargaService: CargaService
   ) {}
+
 
   ngOnInit(): void {
     this.loadViaje();
@@ -151,16 +125,8 @@ export class ViajeComponent implements OnInit {
     this.form.showForm();
   }
 
-  openConfirmDialog(viaje: ViajeResponse) {
-    const estadosNoEliminables = [StatusService.TO_DO, StatusService.IN_PROGRESS];
-
-    if (estadosNoEliminables.includes(viaje.estado)) {
-      this.toast.showErrorCustom("No se puede eliminar el viaje debido a su estado.");
-      return;
-    }
-
-    this.viajeToDelete = viaje;
-    this.dialog.openDialog(viaje.id, `¿Está seguro que desea eliminar el viaje N° ${viaje.numOrden}?`);
+  openConfirmDialog(viaje: ViajeResponse){
+    this.dialog.openDialog(viaje.id);
   }
 
   save(viaje: ViajeRequest){
@@ -196,7 +162,11 @@ export class ViajeComponent implements OnInit {
   }
 
   handlePostCreate(viaje: ViajeResponse) {
-    this.loadViaje();
+    let list = [...this.viajeList];
+    list.push(this.processViaje(viaje));
+
+    this.viajeList = list;
+
     this.form.resetAndHideForm();
   }
 
@@ -209,17 +179,15 @@ export class ViajeComponent implements OnInit {
     this.dataViaje = undefined;
   }
 
-  deleteViaje() {
-    if (!this.viajeToDelete) return;
-
-    this.viajeService.deleteById(this.viajeToDelete.id).subscribe({
-      next: () => {
+  deleteViaje(id: number) {
+    this.viajeService.deleteById(id).subscribe({
+      next: () => { 
         this.toast.showSuccessDelete();
-        this.viajeList = this.viajeList.filter(item => item.id !== this.viajeToDelete?.id);
-        this.viajeToDelete = undefined;
+        this.viajeList = this.viajeList.filter(item => item.id !== id);
       },
-      error: () => {
+      error: (error) => {
         this.toast.showErrorDelete();
+        console.log(error);
       }
     });
   }

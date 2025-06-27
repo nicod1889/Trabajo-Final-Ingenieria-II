@@ -44,4 +44,12 @@ export class ToastComponent{
   showErrorUpdate() {
     this.messageService.add(this.errorUpdate);
   }
+
+  showErrorCustom(detail: string) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail
+    });
+  }
 }

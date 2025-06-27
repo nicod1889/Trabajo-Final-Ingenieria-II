@@ -34,9 +34,13 @@ public class CargaMapper implements Mapper<Carga, CargaRequestDto, CargaResponse
 
     public CargaBasicResponseDto entityToBasicDto(Carga camion) {
         return CargaBasicResponseDto.builder()
-                .id(camion.getId())
-                .nombre(camion.getNombre())
-                .tipoCarga(camion.getTipoCarga().getNombre())
-                .build();
+            .id(camion.getId())
+            .nombre(camion.getNombre())
+            .tipoCarga(
+                camion.getTipoCarga() != null 
+                    ? camion.getTipoCarga().getNombre() 
+                    : "Sin tipo de carga"
+            )
+            .build();
     }
 }
