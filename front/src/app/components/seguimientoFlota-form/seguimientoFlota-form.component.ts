@@ -69,7 +69,7 @@ export class SeguimientoFlotaFormComponent implements OnInit, OnChanges {
         disabledOnUpdate: !this.canEdit
       },
       {
-        label: 'Observaciones',
+        label: 'Comentario',
         controlName: 'observaciones',
         type: TypeField.TEXT,
         placeholder: 'Notas adicionales...',

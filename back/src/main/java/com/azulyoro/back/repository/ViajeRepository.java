@@ -26,4 +26,8 @@ public interface ViajeRepository extends JpaRepository <Viaje, Long> {
     boolean existsByCamionIdAndEstadoInAndIdNot(Long camionId, List<ServiceStatus> estados, Long id);
 
     boolean existsByEmpleadoIdAndEstadoInAndIdNot(Long empleadoId, List<ServiceStatus> estados, Long id);
+
+    boolean existsByNumOrden(Integer numOrden);
+
+    boolean existsByNumOrdenAndIdNot(Integer numOrden, Long id);
 }

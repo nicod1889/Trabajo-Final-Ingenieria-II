@@ -2,7 +2,7 @@
   header={{title}}
   [modal]="true"
   [(visible)]="visible"
-  [style]="{ width: '65vw'}" 
+  [style]="{ width: '65vw', height: '30vw'}" 
   focusOnShow='false' >
     <form [formGroup]="form">
         <div class="row pt-5">        
@@ -64,7 +64,7 @@
             <small *ngIf="hasError(field.controlName)" class="input-invalid"> {{ field.errorMessage }} </small>
           </div>
         </div>
-        <div class="text-end">
+        <div class="text-end mt-5">
             <p-button class="me-3" label="Cancelar" severity="secondary" (onClick)="visible = false" />
             <p-button 
                 type="submit" 

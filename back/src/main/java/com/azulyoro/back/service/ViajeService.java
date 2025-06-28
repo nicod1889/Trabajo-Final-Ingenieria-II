@@ -47,7 +47,18 @@ public class ViajeService implements EntityService<ViajeRequestDto, ViajeRespons
 
     @Override
     public ViajeResponseDto create(ViajeRequestDto requestDto) {
-        if (requestDto.getEstado() == null) requestDto.setEstado(ServiceStatus.TO_DO);
+        if (requestDto.getEstado() == null) {
+            requestDto.setEstado(ServiceStatus.TO_DO);
+        }
+
+        boolean ordenRepetida = viajeRepository.existsByNumOrden(requestDto.getNumOrden());
+        if (ordenRepetida) {
+            throw new IllegalStateException("Ya existe un viaje con ese número de orden.");
+        }
+
+        if (requestDto.getFechaEstimadaEntrega().isBefore(requestDto.getFechaSalida())) {
+            throw new IllegalArgumentException("La fecha estimada de entrega no puede ser anterior a la fecha de salida.");
+        }
 
         boolean camionOcupado = viajeRepository.existsByCamionIdAndEstadoIn(
             requestDto.getCamionId(),
@@ -70,12 +81,24 @@ public class ViajeService implements EntityService<ViajeRequestDto, ViajeRespons
 
     @Override
     public ViajeResponseDto update(Long id, ViajeRequestDto requestDto) {
-        if (!viajeRepository.existsById(id)) {
-            throw new EntityNotFoundException(MessageUtil.entityNotFound(id));
+        Viaje viajeActual = viajeRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException(MessageUtil.entityNotFound(id)));
+
+        if (viajeActual.getEstado() == ServiceStatus.FINISHED) {
+            throw new IllegalStateException("No se puede modificar un viaje que ya fue finalizado.");
         }
 
         if (requestDto.getEstado() == null) {
             requestDto.setEstado(ServiceStatus.TO_DO);
+        }
+
+        boolean ordenRepetida = viajeRepository.existsByNumOrdenAndIdNot(requestDto.getNumOrden(), id);
+        if (ordenRepetida) {
+            throw new IllegalStateException("Ya existe un viaje con ese número de orden.");
+        }
+
+        if (requestDto.getFechaEstimadaEntrega().isBefore(requestDto.getFechaSalida())) {
+            throw new IllegalArgumentException("La fecha estimada de entrega no puede ser anterior a la fecha de salida.");
         }
 
         boolean camionOcupado = viajeRepository.existsByCamionIdAndEstadoInAndIdNot(
