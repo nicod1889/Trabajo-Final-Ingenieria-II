@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
 import { CarouselModule } from 'primeng/carousel';
-import { ServiceResponse, StatusService, VehicleBasicResponse } from '../../interfaces/model.interfaces';
+import { ServiceResponse, StatusService, VehicleBasicResponse, ViajeResponse } from '../../interfaces/model.interfaces';
 import { ButtonModule } from 'primeng/button';
 import { ServicesService } from '../../services/services.service';
 import { Router } from '@angular/router';
+import { ViajeService } from '../../services/viaje.service';
 
 @Component({
   selector: 'app-home',
@@ -17,37 +18,43 @@ import { Router } from '@angular/router';
 export class HomeComponent {
 
   welcome: string = '';
-  serviceList: ServiceResponse[] = [];
+  viajeList: ViajeResponse[] = [];
 
-  constructor(private servicesService: ServicesService, private router: Router) {}
+  constructor(private viajeService: ViajeService, private router: Router) {}
 
   ngOnInit() {
     this.loadWelcome();
-    this.loadServices();
+    this.loadViajes();
   }
 
-  loadServices() {
-    this.servicesService.getAll().subscribe(response => {
-      this.serviceList = response
-        .filter(e => e.status !== StatusService.CANCELLED && e.status !== StatusService.FINISHED)
+  loadViajes() {
+    this.viajeService.getAll().subscribe(response => {
+      this.viajeList = response
+        .filter(v => v.estado === StatusService.TO_DO || v.estado === StatusService.IN_PROGRESS)
         .sort((a, b) => {
-          if (a.status === StatusService.TO_DO && b.status !== StatusService.TO_DO) return -1;
-          if (a.status === StatusService.IN_PROGRESS && b.status !== StatusService.IN_PROGRESS) return b.status === StatusService.TO_DO ? 1 : -1;
+          if (a.estado === StatusService.TO_DO && b.estado !== StatusService.TO_DO) return -1;
+          if (a.estado === StatusService.IN_PROGRESS && b.estado !== StatusService.IN_PROGRESS) return b.estado === StatusService.TO_DO ? 1 : -1;
           return 0;
         })
-        .map(e => {
-          return this.processService(e);
-        });
+        .map(v => this.processViaje(v));
     });
   }
 
 
-  private processService(service: ServiceResponse) {
-    const vehicle: VehicleBasicResponse = service.vehicle;
-    const vehicleCompound: string = `${vehicle.marca || ''} ${vehicle.model || ''}`.trim();
-    const showedStatus: string = this.mapStatusToDescription(service.status);
-    service = { ...service, vehicleCompound, showedStatus }
-    return service;
+  private processViaje(viaje: ViajeResponse) {
+    const showedEstado = this.mapStatusToDescription(viaje.estado);
+    const camion = viaje.camion;
+    const camionCompound = `${camion.marca || ''} ${camion.modelo || ''} ${camion.patente || ''}`.trim();
+    const origenNombre = viaje.origen?.nombre || '';
+    const destinoNombre = viaje.destino?.nombre || '';
+
+    return {
+      ...viaje,
+      showedEstado,
+      camionCompound,
+      origenNombre,
+      destinoNombre
+    };
   }
 
   private mapStatusToDescription(status: StatusService): string {
