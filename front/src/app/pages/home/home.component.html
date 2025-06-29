@@ -5,20 +5,20 @@
 
 <p-card class="mb-2">
     <div class="text-center">
-        <h1 class="title">Seguimiento de flota</h1>
+        <h1 class="title">Viajes</h1>
         <p-carousel 
-            [value]="serviceList"
+            [value]="viajeList"
             [numVisible]="3" 
             [numScroll]="3" 
             [circular]="true" 
             autoplayInterval="5000">
-            <ng-template let-service pTemplate="item">
-                <div class="border-1 surface-border border-round">
-                    <div class="mb-3">
-                        <h5> {{service.vehicleCompound}} </h5>
-                        <p> {{ service.serviceType.name }} </p>
-                        <p> {{ service.showedStatus }} </p>
-                    </div>
+            <ng-template let-viaje pTemplate="item">
+                <div class="border-1 surface-border border-round p-3">
+                    <h5 class="mb-2">Viaje N° {{ viaje.numOrden }}</h5>
+                    <p><strong>Origen:</strong> {{ viaje.origenNombre }}</p>
+                    <p><strong>Destino:</strong> {{ viaje.destinoNombre }}</p>
+                    <p><strong>Estado:</strong> {{ viaje.showedEstado }}</p>
+                    <p><strong>Camión:</strong> {{ viaje.camionCompound }}</p>
                 </div>
             </ng-template>
         </p-carousel>
