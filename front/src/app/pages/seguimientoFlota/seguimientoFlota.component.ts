@@ -91,13 +91,6 @@ export class SeguimientoFlotaComponent implements OnInit {
       severity: 'success', 
       isDisabled: !this.canEdit,
       action: (data: any) => this.canEdit ? this.openFormEdit(data) : null 
-    },
-    { 
-      icon: 'pi pi-trash', 
-      tooltip: 'Borrar registro', 
-      severity: 'danger', 
-      isDisabled: !this.canRemove,
-      action: (data: any) => this.canRemove ? this.openConfirmDialog(data) : null
     }
   ];
 

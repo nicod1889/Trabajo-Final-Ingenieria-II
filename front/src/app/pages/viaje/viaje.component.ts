@@ -201,6 +201,7 @@ export class ViajeComponent implements OnInit {
   }
 
   handlePostUpdate(viaje: ViajeResponse) {
+    this.loadViaje();
     const index = this.viajeList.findIndex(item => item.id === viaje.id);
     this.viajeList[index] = this.processViaje(viaje);
 
@@ -227,7 +228,6 @@ export class ViajeComponent implements OnInit {
   loadViaje() {
     this.viajeService.getAll().subscribe(response => {
       const processed = response
-        .filter(e => e.estado !== StatusService.CANCELLED)
         .map(e => this.processViaje(e));
 
       this.viajeListOriginal = processed;

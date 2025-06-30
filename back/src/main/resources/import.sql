@@ -13,7 +13,7 @@ insert into empleado (nombre, apellido, category, numero_identificacion, email, 
 insert into empleado (nombre, apellido, category, numero_identificacion, email, rol, street, number, password, is_deleted)  values  ('admin', 'admin', 'DNI', 12123123, 'admin.user@gmail.com', 'ROL_ADMIN', 'admin', 123, 'adminuser123', false);
 insert into empleado (nombre, apellido, category, numero_identificacion, email, rol, street, number, password, is_deleted)  values  ('Juan Carlos', 'Gonzalez', 'DNI', 366280281, 'admin@taller4.com', 'ROL_ADMIN', 'Wallaby', 42, '$2a$10$3MqrebYGnaEN80tCNr2t2ue4x9BGU1UJZx5nMfq.pIjf1QvPCq8pS', false);
 insert into empleado (nombre, apellido, category, numero_identificacion, email, rol, street, number, password, is_deleted)  values  ('Miguel', 'Serra', 'DNI', 366280282, 'administrativo@taller4.com', 'ROL_ADMINISTRATIVO', 'Wallaby', 42, '$2a$10$0CeMPGGi2Dvh1/knAowCiucWhjPsoneJ4kv.ezrSNYX0kTir7jwz6', false);
-insert into empleado (nombre, apellido, category, numero_identificacion, email, rol, street, number, password, is_deleted)  values  ('Lucas', 'Torres', 'DNI', 366280283, 'mecanico@taller4.com', 'ROL_CAMIONERO', 'Wallaby', 42, '$2a$10$RL1NLb.67XpVCTfkJok7ouQKK.mHjmL73/N/IKhyzokzBLv6P6sra', false);
+insert into empleado (nombre, apellido, category, numero_identificacion, email, rol, street, number, password, is_deleted)  values  ('Lucas', 'Torres', 'DNI', 366280283, 'camionero@taller4.com', 'ROL_CAMIONERO', 'Wallaby', 42, '$2a$10$RL1NLb.67XpVCTfkJok7ouQKK.mHjmL73/N/IKhyzokzBLv6P6sra', false);
 
 insert into ciudad (nombre, provincia, is_deleted) values ('La Plata', 'BUENOS_AIRES', false);
 insert into ciudad (nombre, provincia, is_deleted) values ('Mar del Plata', 'BUENOS_AIRES', false);

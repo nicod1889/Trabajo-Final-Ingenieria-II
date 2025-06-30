@@ -1,9 +1,9 @@
-<div class="text-center mb-3">
+<div class="text-center m-0 p-0">
     <h1 class="welcome">{{ welcome }}, bienvenido a Transporte el Indio!</h1>
     <img src="../../../assets/Logo.png" class="image" alt="La Azul y Oro">
 </div>
 
-<p-card class="mb-2">
+<p-card class="p-0 m-0">
     <div class="text-center">
         <h1 class="title">Viajes</h1>
         <p-carousel 
@@ -13,7 +13,7 @@
             [circular]="true" 
             autoplayInterval="5000">
             <ng-template let-viaje pTemplate="item">
-                <div class="border-1 surface-border border-round p-3">
+                <div class="border-1 surface-border border-round p-1">
                     <h5 class="mb-2">Viaje N° {{ viaje.numOrden }}</h5>
                     <p><strong>Origen:</strong> {{ viaje.origenNombre }}</p>
                     <p><strong>Destino:</strong> {{ viaje.destinoNombre }}</p>

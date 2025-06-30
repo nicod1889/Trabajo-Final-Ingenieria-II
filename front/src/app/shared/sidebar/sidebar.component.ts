@@ -36,7 +36,7 @@ export class SidebarComponent {
       label: 'Viajes',
       icon: 'pi pi-star-fill',
       path: 'viajes',
-      isDisabled: !hasValidRoles(this.authService.employeeData, ["ROL_ADMIN", "ROL_ADMINISTRATIVO"])
+      isDisabled: !hasValidRoles(this.authService.employeeData, ["ROL_ADMIN", "ROL_ADMINISTRATIVO", "ROL_CAMIONERO"])
     },
     {
       label: 'Seguimiento de flota',
